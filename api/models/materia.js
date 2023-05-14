@@ -1,15 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const materia = sequelize.define('materia', {
-    id_carrera: {
-      type: DataTypes.INTEGER,
-      foreignKey: true
-    },
-    nombre: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {});
-
+    nombre: DataTypes.STRING,
+    id_carrera: DataTypes.INTEGER
+  }, {
+    tableName: 'materias'
+  });
   return materia;
 };
