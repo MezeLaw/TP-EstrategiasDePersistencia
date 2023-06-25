@@ -1,63 +1,61 @@
 const express = require('express');
-const User = require('../models/user');
-const userService = require('../services/userService');
-const {deleteUser} = require("../services/userService");
+const carreraService = require('../services/carreraService');
 
 const router = express.Router();
 
-// Get users
+// Get carreras
 router.get('/', async (req, res) => {
     try {
-        const users = await userService.getUsers()
-        res.json(users);
+        const carreras = await carreraService.getCarreras()
+        res.json(carreras);
     } catch (err) {
-        console.error('Error al obtener los usuarios:', err);
-        res.status(500).json({ error: 'Error al obtener los usuarios' });
+        console.error('Error al obtener las carreras:', err);
+        res.status(500).json({ error: 'Error al obtener las carreras' });
     }
 });
 
 //Get by id
 router.get("/:id",async (req, res) => {
-    const userId = req.params.id;
+    const carreraId = req.params.id;
     try {
-        const user = await userService.getUser(userId)
-        if (user) {
-            res.json(user);
+        const carrera = await carreraService.getCarrera(carreraId)
+        if (carrera) {
+            res.json(carrera);
         } else {
-            res.status(404).json({ error: 'Usuario no encontrado' });
+            res.status(404).json({ error: 'carrera no encontrada' });
         }
     }  catch (err) {
-        console.error('Error al buscar el usuario:', err);
-        res.status(500).json({ error: 'Error al buscar el usuario' });
+        console.error('Error al buscar la carrera:', err);
+        res.status(500).json({ error: 'Error al buscar la carrera' });
     }
 });
 
-//Create user
+//Create carrera
 router.post('/', async (req, res) => {
-    const { name, lastname, dni, email, password } = req.body;
+    const { name } = req.body;
     try {
-        const user = await userService.createUser({ name, lastname, dni, email, password });
-        res.json(user);
+        const carrera = await carreraService.createCarrera({ name });
+        res.json(carrera);
     } catch (err) {
-        console.error('Error al crear el usuario:', err);
-        res.status(500).json({ error: 'Error al crear el usuario' });
+        console.error('Error al crear la carrera:', err);
+        res.status(500).json({ error: 'Error al crear la carrera' });
     }
 });
 
-//Delete user
+//Delete carrera
 router.delete("/:id",async (req, res) => {
-    const userId = req.params.id;
+    const carreraId = req.params.id;
     try {
-        const user = await userService.getUser(userId)
-        if (user) {
-             const deletedUser = await userService.deleteUser(user)
-            res.status(200).json({deletedUser})
+        const carrera = await carreraService.getCarrera(carreraId)
+        if (carrera) {
+             const deletedCarrera = await carreraService.deleteCarrera(carrera)
+            res.status(200).json({deletedCarrera})
         } else {
-            res.status(404).json({ error: 'Usuario no encontrado' });
+            res.status(404).json({ error: 'carrera no encontrada' });
         }
     }  catch (err) {
-        console.error('Error al buscar el usuario:', err);
-        res.status(500).json({ error: 'Error al buscar el usuario' });
+        console.error('Error al buscar la carrera:', err);
+        res.status(500).json({ error: 'Error al buscar la carrera' });
     }
 });
 
