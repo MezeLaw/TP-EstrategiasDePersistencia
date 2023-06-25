@@ -30,7 +30,7 @@ async function deleteUser(User) {
         await User.save();
         return User
     } catch (err) {
-        console.error('Error al intentar eliminar el usuario con id :', id, err);
+        console.error('Error al intentar eliminar el usuario con id :', User.id, err);
         throw new Error('Error al intentar eliminar el usuario');
     }
 }

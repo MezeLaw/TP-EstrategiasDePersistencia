@@ -7,9 +7,11 @@ const app = configureExpress();
 
 //Modelos - definicion
 const User = require('./models/user');
+const Carrera = require('./models/carrera')
 
 //Rutas
 const usersRouter = require('./routes/user');
+const carrerasRouter = require('./routes/carreras')
 
 //Routing sin agrupamiento
 app.get('/', (req, res) => {
@@ -21,6 +23,7 @@ app.get('/healthcheck', (req, res) => {
 
 // Asignacion de rutas
 app.use('/users', usersRouter);
+app.use('/carreras', carrerasRouter)
 
 // Iniciar el servidor post sync de la db
 syncDatabase()
