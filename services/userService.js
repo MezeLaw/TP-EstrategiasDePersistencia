@@ -28,7 +28,7 @@ async function deleteUser(User) {
     try {
         User.deletedAt = new Date()
         await User.save();
-        return user
+        return User
     } catch (err) {
         console.error('Error al intentar eliminar el usuario con id :', id, err);
         throw new Error('Error al intentar eliminar el usuario');
