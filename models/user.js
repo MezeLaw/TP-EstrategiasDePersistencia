@@ -37,6 +37,11 @@ const User = sequelize.sequelize.define('User', {
     updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
+    },
+    deletedAt: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: null
     }
 });
 

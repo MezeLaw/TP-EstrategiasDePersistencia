@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
+const user = require("../models/user");
 
 
 async function createUser({ name, lastname, dni, email, password }) {
@@ -23,6 +24,17 @@ async function getUser(id) {
     }
 }
 
+async function deleteUser(User) {
+    try {
+        User.deletedAt = new Date()
+        await User.save();
+        return user
+    } catch (err) {
+        console.error('Error al intentar eliminar el usuario con id :', id, err);
+        throw new Error('Error al intentar eliminar el usuario');
+    }
+}
+
 async function getUsers() {
     try {
         const users = await User.findAll();
@@ -36,5 +48,6 @@ async function getUsers() {
 module.exports = {
     createUser,
     getUser,
-    getUsers
+    getUsers,
+    deleteUser
 };

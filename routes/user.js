@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/user');
 const userService = require('../services/userService');
+const {deleteUser} = require("../services/userService");
 
 const router = express.Router();
 
@@ -40,6 +41,23 @@ router.post('/', async (req, res) => {
     } catch (err) {
         console.error('Error al crear el usuario:', err);
         res.status(500).json({ error: 'Error al crear el usuario' });
+    }
+});
+
+//Delete user
+router.delete("/:id",async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const user = await userService.getUser(userId)
+        if (user) {
+             const deletedUser = await userService.deleteUser(user)
+            res.status(200).json({deletedUser})
+        } else {
+            res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+    }  catch (err) {
+        console.error('Error al buscar el usuario:', err);
+        res.status(500).json({ error: 'Error al buscar el usuario' });
     }
 });
 
