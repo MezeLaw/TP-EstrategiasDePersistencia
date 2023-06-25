@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Carrera = sequelize.sequelize.define('Carrera', {
+const Carrera = sequelize.sequelize.define('carreras', {
     id: {
         allowNull: false,
         autoIncrement: true,

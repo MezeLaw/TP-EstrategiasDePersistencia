@@ -8,6 +8,7 @@ const app = configureExpress();
 //Modelos - definicion
 const User = require('./models/user');
 const Carrera = require('./models/carrera')
+const UsuarioCarrera = require('./models/usuario_carrera')
 
 //Rutas
 const usersRouter = require('./routes/user');
