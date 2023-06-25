@@ -13,6 +13,7 @@ const UsuarioCarrera = require('./models/usuario_carrera')
 //Rutas
 const usersRouter = require('./routes/user');
 const carrerasRouter = require('./routes/carreras')
+const inscripcionesRouter = require('./routes/inscripcion')
 
 //Routing sin agrupamiento
 app.get('/', (req, res) => {
@@ -25,6 +26,7 @@ app.get('/healthcheck', (req, res) => {
 // Asignacion de rutas
 app.use('/users', usersRouter);
 app.use('/carreras', carrerasRouter)
+app.use('/inscripcion', inscripcionesRouter)
 
 // Iniciar el servidor post sync de la db
 syncDatabase()
