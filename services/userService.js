@@ -24,6 +24,19 @@ async function getUser(id) {
     }
 }
 
+async function getUserByEmail(email) {
+    try {
+        const user = await User.findOne({
+                attributes: ["id", "email", "password"],
+                where: { email }
+        });
+        return user;
+    } catch (err) {
+        console.error('Error al obtener el usuario con email :', email, err);
+        throw new Error('Error al obtener el usuario');
+    }
+}
+
 async function deleteUser(User) {
     try {
         User.deletedAt = new Date()
@@ -49,5 +62,6 @@ module.exports = {
     createUser,
     getUser,
     getUsers,
+    getUserByEmail,
     deleteUser
 };

@@ -1,8 +1,8 @@
 const express = require('express');
 const User = require('../models/user');
 const userService = require('../services/userService');
-const {deleteUser} = require("../services/userService");
-
+const {deleteUser} = require('../services/userService');
+const jwtMiddleware = require('../jwt');
 const router = express.Router();
 
 // Get users
@@ -17,8 +17,15 @@ router.get('/', async (req, res) => {
 });
 
 //Get by id
-router.get("/:id",async (req, res) => {
+router.get("/:id", async (req, res) => {
     const userId = req.params.id;
+    try {    
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error : error.toString() });
+    }
     try {
         const user = await userService.getUser(userId)
         if (user) {
