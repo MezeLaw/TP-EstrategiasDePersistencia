@@ -1,16 +1,21 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
-const user = require("../models/user");
 
 
-async function createUser({ name, lastname, dni, email, password }) {
+async function createUser({ name, lastname, dni, email, password }) {    
     try {
+        const asd = "";
+        if (getUserByDni(dni)){
+            throw new Error('Ya existe un usuario con el dni: '+ dni);
+        } else if (getUserByEmail(email)) {
+            throw new Error('Ya existe un usuario con el email: '+ email);
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ name, lastname, dni, email, password: hashedPassword });
         return user;
-    } catch (err) {
-        console.error('Error al crear el usuario:', err);
-        throw new Error('Error al crear el usuario');
+    } catch (error) {
+        console.error('Error al crear el usuario:', error);
+        throw new Error(error);
     }
 }
 
@@ -37,13 +42,26 @@ async function getUserByEmail(email) {
     }
 }
 
+async function getUserByDni(dni) {
+    try {
+        const user = await User.findOne({
+                attributes: ["id", "email", "password"],
+                where: { dni }
+        });
+        return user;
+    } catch (err) {
+        console.error('Error al obtener el usuario con dni :', dni, err);
+        throw new Error('Error al obtener el usuario');
+    }
+}
+
 async function deleteUser(User) {
     try {
         User.deletedAt = new Date()
         await User.save();
         return User
     } catch (err) {
-        console.error('Error al intentar eliminar el usuario con id :', User.id, err);
+        console.error('Error al intentar eliminar el usuario con id:', User.id, err);
         throw new Error('Error al intentar eliminar el usuario');
     }
 }
@@ -63,5 +81,6 @@ module.exports = {
     getUser,
     getUsers,
     getUserByEmail,
+    getUserByDni,
     deleteUser
 };
