@@ -7,13 +7,33 @@ const app = configureExpress();
 
 //Modelos - definicion
 const User = require('./models/user');
-const Carrera = require('./models/carrera')
-const UsuarioCarrera = require('./models/usuario_carrera')
+const Carrera = require('./models/carrera');
+const UsuarioCarrera = require('./models/usuario_carrera');
+
+//Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const swaggerOptions = {
+  swaggerDefinition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Universidad API',
+      version: '1.0.0',
+      description: 'App para los usuarios de la Universidad (primer version para Alumnos), para que puedan consultar sus carreras,sus materias, inscribirse a carreras/materias y más.',
+    },
+  },
+  apis: ['swaggerSpec.js'],
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+
 
 //Rutas
 const usersRouter = require('./routes/user');
-const carrerasRouter = require('./routes/carreras')
-const inscripcionesRouter = require('./routes/inscripcion')
+const carrerasRouter = require('./routes/carreras');
+const inscripcionesRouter = require('./routes/inscripcion');
 
 //Routing sin agrupamiento
 app.get('/', (req, res) => {
@@ -31,8 +51,8 @@ app.use('/inscripcion', inscripcionesRouter)
 // Iniciar el servidor post sync de la db
 syncDatabase()
     .then(() => {
-        // Iniciar el servidor solo después de sincronizar la base de datos
-        app.listen(3000, () => {
+  // Iniciar el servidor solo después de sincronizar la base de datos
+  app.listen(3000, () => {
             console.log('Servidor escuchando en el puerto 3000');
-        });
-    });
+  });
+});
