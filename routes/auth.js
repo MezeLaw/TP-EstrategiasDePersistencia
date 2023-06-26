@@ -31,14 +31,5 @@ router.post('/', async (req, res) => {
     }
 });
 
-//TODO terminar la funcion
-function tokenValidation(token, id) {
-    try {
-        
-    } catch (err) {
-        console.error('Error:', id, err);
-        throw new Error('Error');
-    }
-}
 
 module.exports = router;

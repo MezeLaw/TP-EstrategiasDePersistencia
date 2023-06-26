@@ -1,7 +1,8 @@
 const express = require('express');
 const User = require('../models/user');
 const userService = require('../services/userService');
-const {deleteUser} = require("../services/userService");
+const {deleteUser} = require('../services/userService');
+const auth = require('./auth');
 const jwtMiddleware = require('../jwt');
 
 const router = express.Router();
@@ -22,12 +23,10 @@ router.get("/:id", async (req, res) => {
     const userId = req.params.id;
     try {    
         const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
-        if (tokenParsed  && tokenParsed.id.toString() !== userId) {
-            return res.status(401).json({ error: 'No estás autorizado. Id distinto al id del token.' });
-        }
+        await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
     } catch (error) {
-        console.error('Error al validar token', error);
-        return res.status(500).json({ error: 'Error al validar token' });
+        console.error(error);
+        return res.status(500).json({ error : error.toString() });
     }
     try {
         const user = await userService.getUser(userId)

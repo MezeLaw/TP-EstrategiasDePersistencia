@@ -20,8 +20,17 @@ function verifyAndParseToken(req) {
     }
   }
 
+  //TODO terminar la funcion
+async function tokenValidationWithId(token, id) {
+  if (token  && token.id.toString() !== id) {
+      console.error('Error al validar token. Id distinto al Id del token:', id);
+      throw new Error('Id distinto al Id del token');
+  }
+}
+
 module.exports = {
     generateToken,
     verifyToken,
-    verifyAndParseToken
+    verifyAndParseToken,
+    tokenValidationWithId
   };
