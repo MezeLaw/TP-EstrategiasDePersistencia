@@ -28,12 +28,11 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-
-
 //Rutas
 const usersRouter = require('./routes/user');
 const carrerasRouter = require('./routes/carreras');
 const inscripcionesRouter = require('./routes/inscripcion');
+const authRouter = require('./routes/auth');
 
 //Routing sin agrupamiento
 app.get('/', (req, res) => {
@@ -45,8 +44,9 @@ app.get('/healthcheck', (req, res) => {
 
 // Asignacion de rutas
 app.use('/users', usersRouter);
-app.use('/carreras', carrerasRouter)
-app.use('/inscripcion', inscripcionesRouter)
+app.use('/carreras', carrerasRouter);
+app.use('/inscripcion', inscripcionesRouter);
+app.use('/auth', authRouter);
 
 // Iniciar el servidor post sync de la db
 syncDatabase()
