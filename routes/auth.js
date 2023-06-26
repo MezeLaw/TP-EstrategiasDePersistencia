@@ -9,9 +9,9 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     const { email, password } = req.body;
     try {
-        var user = userService.getUserByEmail(email);
+        const user = await userService.getUserByEmail(email);
         if(user){
-            const passwordMatching = await bcrypt.compare(password, hashedPassword);
+            const passwordMatching = await bcrypt.compare(password, user.password);
             if (passwordMatching) {
                 const token = jwtMiddleware.generateToken({
                     id: user.id
