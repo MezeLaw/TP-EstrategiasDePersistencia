@@ -1,34 +1,30 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const User = require('./User'); // Importa el modelo User
+const Carrera = require('./Carrera'); // Importa el modelo Carrera
 
-const User = sequelize.sequelize.define('usuarios', {
+const UsuarioCarrera = sequelize.sequelize.define('usuario_carreras', {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    lastname:{
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    dni:{
-        type:DataTypes.INTEGER,
+    usuario_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true
+        references: {
+            model: User,
+            key: 'id'
+        }
     },
-    email: {
-        type: DataTypes.STRING,
+    carrera_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        references: {
+            model: Carrera,
+            key: 'id'
+        }
     },
     createdAt: {
         allowNull: false,
@@ -45,5 +41,5 @@ const User = sequelize.sequelize.define('usuarios', {
     }
 });
 
-module.exports = User;
+module.exports = UsuarioCarrera;
 
