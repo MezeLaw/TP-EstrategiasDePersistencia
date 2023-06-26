@@ -19,10 +19,15 @@ router.get('/', async (req, res) => {
 
 //Get by id
 router.get("/:id", async (req, res) => {
-    const tokenParsed = jwtMiddleware.verifyAndParseToken(req.headers.authorization);
     const userId = req.params.id;
-    if (tokenParsed.userId !== userId) {
-        return res.status(401).json({ error: 'No estás autorizado' });
+    try {    
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        if (tokenParsed  && tokenParsed.id.toString() !== userId) {
+            return res.status(401).json({ error: 'No estás autorizado. Id distinto al id del token.' });
+        }
+    } catch (error) {
+        console.error('Error al validar token', error);
+        return res.status(500).json({ error: 'Error al validar token' });
     }
     try {
         const user = await userService.getUser(userId)

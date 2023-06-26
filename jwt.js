@@ -9,12 +9,13 @@ function verifyToken(token) {
   return jwt.verify(token, process.env.SECRET_KEY);
 }
 
-function verifyAndParseToken(token) {
+function verifyAndParseToken(req) {
     try {
-      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      const token = req.headers.authorization?.split(' ')[1];
+      const decoded = verifyToken(token);
       return decoded;
     } catch (error) {
-      console.error('Error al decodificar el token:', error);
+      console.error('Error al verificar el token:', error);
       return null;
     }
   }
