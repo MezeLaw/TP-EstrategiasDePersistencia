@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/user');
 const userService = require('../services/userService');
 const {deleteUser} = require("../services/userService");
+const jwtMiddleware = require('../jwt');
 
 const router = express.Router();
 
@@ -17,8 +18,11 @@ router.get('/', async (req, res) => {
 });
 
 //Get by id
-router.get("/:id",async (req, res) => {
+router.get("/:id", jwtMiddleware.verifyToken, async (req, res) => {
     const userId = req.params.id;
+    if (req.tokenData.userId !== userId) {
+        return res.status(401).json({ error: 'No estás autorizado' });
+    }
     try {
         const user = await userService.getUser(userId)
         if (user) {
