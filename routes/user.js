@@ -2,9 +2,7 @@ const express = require('express');
 const User = require('../models/user');
 const userService = require('../services/userService');
 const {deleteUser} = require('../services/userService');
-const auth = require('./auth');
 const jwtMiddleware = require('../jwt');
-
 const router = express.Router();
 
 // Get users
