@@ -9,7 +9,7 @@ function verifyToken(token) {
   return jwt.verify(token, process.env.SECRET_KEY);
 }
 
-function parseToken(token) {
+function verifyAndParseToken(token) {
     try {
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
       return decoded;
@@ -22,5 +22,5 @@ function parseToken(token) {
 module.exports = {
     generateToken,
     verifyToken,
-    parseToken
+    verifyAndParseToken
   };

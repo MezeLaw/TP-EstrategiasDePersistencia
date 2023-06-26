@@ -18,9 +18,10 @@ router.get('/', async (req, res) => {
 });
 
 //Get by id
-router.get("/:id", jwtMiddleware.verifyToken, async (req, res) => {
+router.get("/:id", async (req, res) => {
+    const tokenParsed = jwtMiddleware.verifyAndParseToken(req.headers.authorization);
     const userId = req.params.id;
-    if (req.tokenData.userId !== userId) {
+    if (tokenParsed.userId !== userId) {
         return res.status(401).json({ error: 'No estás autorizado' });
     }
     try {
