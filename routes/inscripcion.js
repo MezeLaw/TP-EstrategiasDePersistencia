@@ -17,13 +17,12 @@ router.post('/carrera/:carreraId/usuario/:userId', async (req, res) => {
 
         if (!user || !carrera) {
             res.status(404).json({ error: 'Usuario o carrera no encontrados' });
+        }
+        const usuarioCarrera = await usuarioCarreraService.inscribirUsuarioEnCarrera(userId, carreraId)
+        if (usuarioCarrera == null) {
+            res.status(500).json({ error: 'Ocurrio un error al intentar realizar la inscripcion' });
         } else {
-            const usuarioCarrera = usuarioCarreraService.inscribirUsuarioEnCarrera(userId, carreraId)
-            if (!usuarioCarrera) { // en caso de error no mantiene el app vivo porque esto no es null - no retorna el registro creado en el response
-                res.status(500).json({ error: 'Ocurrio un error al intentar realizar la inscripcion' });
-            } else {
-                res.status(200).json({usuarioCarrera})
-            }
+            res.json(usuarioCarrera);
         }
     } catch (err) {
         console.error('Error al registrar la carrera para el usuario:', err);
