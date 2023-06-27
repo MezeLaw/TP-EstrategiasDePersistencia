@@ -1,5 +1,14 @@
 /**
  * @swagger
+ * securitySchemesy:
+ *   BearerAuth:
+ *     type: apiKey
+ *     name: Authorization
+ *     in: header
+ */
+
+/**
+ * @swagger
  * tags:
  *   name: Carreras
  *   description: Endpoints relacionados con carreras.
@@ -119,6 +128,8 @@
  *           type: string
  *         required: true
  *         description: ID del usuario a buscar
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Usuario encontrado exitosamente
