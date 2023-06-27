@@ -31,27 +31,6 @@ paths:
         '500':
           description: Error al obtener las carreras
 
-  /carreras/{id}:
-    get:
-      summary: Obtiene una carrera por ID
-      tags:
-        - Carreras
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID de la carrera a buscar
-      responses:
-        '200':
-          description: Carrera encontrada exitosamente
-        '404':
-          description: Carrera no encontrada
-        '500':
-          description: Error al buscar la carrera
-
-  /carreras/nueva-carrera:
     post:
       summary: Crea una nueva carrera
       tags:
@@ -73,7 +52,26 @@ paths:
         '500':
           description: Error al crear la carrera
 
-  /carreras/delete/{id}:
+  /carreras/{id}:
+    get:
+      summary: Obtiene una carrera por ID
+      tags:
+        - Carreras
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la carrera a buscar
+      responses:
+        '200':
+          description: Carrera encontrada exitosamente
+        '404':
+          description: Carrera no encontrada
+        '500':
+          description: Error al buscar la carrera
+
     delete:
       summary: Elimina una carrera por ID
       tags:
@@ -104,29 +102,6 @@ paths:
         '500':
           description: Error al obtener los usuarios
 
-  /users/{id}:
-    get:
-      summary: Obtiene un usuario por ID
-      tags:
-        - Usuarios
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID del usuario a buscar
-      security:
-        - BearerAuth: []
-      responses:
-        '200':
-          description: Usuario encontrado exitosamente
-        '404':
-          description: Usuario no encontrado
-        '500':
-          description: Error al buscar el usuario
-
-  /users/nuevo-usuario:
     post:
       summary: Crea un nuevo usuario
       tags:
@@ -160,7 +135,28 @@ paths:
         '500':
           description: Error al crear el usuario
 
-  /users/delete/{id}:
+  /users/{id}:
+    get:
+      summary: Obtiene un usuario por ID
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario a buscar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Usuario encontrado exitosamente
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al buscar el usuario
+
     delete:
       summary: Elimina un usuario por ID
       tags:
