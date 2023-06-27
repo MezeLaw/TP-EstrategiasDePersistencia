@@ -30,7 +30,6 @@ router.get("/:id_usuario", async (req, res) => {
     }
 });
 
-
 router.get("/:metodo_http", async (req, res) => {
     const metodoHttp = req.params.metodo_http;
     try {
@@ -38,21 +37,6 @@ router.get("/:metodo_http", async (req, res) => {
 
         const activities = await activityService.getActivitiesByHttpMethod(metodoHttp)
         let response = (activities) ? activities : { success: false, error: 'Logs no encontrados' };
-        return res.json(response);
-    } catch (err) {
-        console.error('Error al obtener los logs:', err);
-        return res.status(500).json({ success: false, error: 'Error al obtener los logs' });
-    }
-});
-
-// Obtener logs por dirección IP
-router.get("/ip/:direccion_ip", async (req, res) => {
-    const direccionIp = req.params.direccion_ip;
-    try {
-        jwtMiddleware.verifyAndParseToken(req);
-
-        const activities = await activityService.getActivitiesByIpDirection(direccionIp);
-        let response = activities ? activities : { success: false, error: 'Logs no encontrados' };
         return res.json(response);
     } catch (err) {
         console.error('Error al obtener los logs:', err);

@@ -2,9 +2,9 @@ const ActivityLogs = require("../models/activity_logs");
 const { Op } = require('sequelize');
 
 
-async function createActivity({ usuario_id, direccion_ip, metodo_http, url_peticion, datos_peticion, respuesta_peticion, duracion_peticion }) {
+async function createActivity({ usuario_id, metodo_http, url_peticion,  respuesta_peticion, duracion_peticion }) {
     try {
-        const activity = await ActivityLogs.create({ usuario_id, direccion_ip, metodo_http, url_peticion, datos_peticion, respuesta_peticion, duracion_peticion });
+        const activity = await ActivityLogs.create({ usuario_id, metodo_http, url_peticion, respuesta_peticion, duracion_peticion });
         return activity;
     } catch (err) {
         console.error('Error al crear la actividad:', err);
@@ -30,18 +30,6 @@ async function getActivitiesByHttpMethod(httpMethod) {
         return activities;
     } catch (err) {
         console.error('Error al obtener todas las actividades con el hhtp method :', httpMethod, err);
-        throw new Error('Error al obtener todas las actividades');
-    }
-}
-
-async function getActivitiesByIpDirection(ipDirection) {
-    try {
-        const activities = await ActivityLogs.findAll({
-                where: { direccion_ip : ipDirection }
-        });
-        return activities;
-    } catch (err) {
-        console.error('Error al obtener todas las actividades con la direccion ip :', ipDirection, err);
         throw new Error('Error al obtener todas las actividades');
     }
 }
@@ -108,17 +96,6 @@ async function getActivitiesByDurationRange(minDuration, maxDuration) {
     }
 }
 
-async function deleteActivity(activity) {
-    try {
-        activity.deletedAt = new Date()
-        await activity.save();
-        return activity;
-    } catch (err) {
-        console.error('Error al intentar eliminar la actividad con id :', activity.id, err);
-        throw new Error('Error al intentar eliminar la actividad');
-    }
-}
-
 async function getActivities() {
     try {
         const activities = await ActivityLogs.findAll();
@@ -150,7 +127,5 @@ module.exports = {
     getActivitiesByDurationRange,
     getActivitiesByExactDate,
     getActivitiesByHttpMethod,
-    getActivitiesByIpDirection,
-    getActivitiesByUrlEndpoint,
-    deleteActivity
+    getActivitiesByUrlEndpoint
 };

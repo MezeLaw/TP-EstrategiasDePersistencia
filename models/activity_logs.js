@@ -12,20 +12,12 @@ const activityLogs = sequelize.sequelize.define('activity_logs', {
       type: DataTypes.STRING,
       allowNull: false
     },
-    direccion_ip: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
     metodo_http: {
         type: DataTypes.STRING,
         allowNull: false,
     },
     url_peticion: {
         type: DataTypes.STRING,
-        allowNull: false
-    },
-    datos_peticion: {
-        type: DataTypes.JSON,
         allowNull: false
     },
     respuesta_peticion: {
@@ -43,11 +35,6 @@ const activityLogs = sequelize.sequelize.define('activity_logs', {
     updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
-    },
-    deletedAt: {
-        allowNull: true,
-        type: DataTypes.DATE,
-        defaultValue: null
     }
 });
 

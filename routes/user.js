@@ -16,31 +16,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-/*
-//Get by id
-router.get("/:id", async (req, res) => {
-    const userId = req.params.id;
-    try {    
-        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
-        await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error : error.toString() });
-    }
-    try {
-        const user = await userService.getUser(userId)
-        if (user) {
-            res.json(user);
-        } else {
-            res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-    }  catch (err) {
-        console.error('Error al buscar el usuario:', err);
-        res.status(500).json({ error: 'Error al buscar el usuario' });
-    }
-});
-*/
-
 //Get by id
 router.get("/:id", async (req, res) => {
     const userId = req.params.id;
