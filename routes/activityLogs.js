@@ -105,23 +105,4 @@ router.get("/duracion/:duracion_min/:duracion_max", async (req, res) => {
     }
 });
 
-// Eliminar log por ID
-router.delete("/:id", async (req, res) => {
-    const activityId = req.params.id;
-    try {
-        jwtMiddleware.verifyAndParseToken(req);
-
-        const activity = await activityService.getActivityById(activityId);
-        if (!activity) {
-            return res.status(404).json({ success: false, error: 'Log no encontrado' });
-        }
-
-        const deletedActivity = await activityService.deleteActivity(activity);
-        return res.json(deletedActivity);
-    } catch (err) {
-        console.error('Error al eliminar el log:', err);
-        return res.status(500).json({ success: false, error: 'Error al eliminar el log' });
-    }
-});
-
 module.exports = router;

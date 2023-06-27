@@ -1,15 +1,15 @@
 //ORM cfg
-const { sequelize, syncDatabase } = require('../config/database');
+const { sequelize, syncDatabase } = require('./config/database');
 
 //Express cfg
-const configureExpress = require('../config/express');
+const configureExpress = require('./config/express');
 const app = configureExpress();
 
 //Modelos - definicion
-const User = require('../models/user');
-const Carrera = require('../models/carrera');
-const UsuarioCarrera = require('../models/usuario_carrera');
-const ActivityLogs = require('../models/activity_logs');
+const User = require('./models/user');
+const Carrera = require('./models/carrera');
+const UsuarioCarrera = require('./models/usuario_carrera');
+const ActivityLogs = require('./models/activity_logs');
 
 //Swagger
 const swaggerUi = require('swagger-ui-express');
@@ -30,11 +30,11 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //Rutas
-const usersRouter = require('../routes/user');
-const carrerasRouter = require('../routes/carreras');
-const inscripcionesRouter = require('../routes/inscripcion');
-const authRouter = require('../routes/auth');
-const activityLogsRouter = require('../routes/activityLogs');
+const usersRouter = require('./routes/user');
+const carrerasRouter = require('./routes/carreras');
+const inscripcionesRouter = require('./routes/inscripcion');
+const authRouter = require('./routes/auth');
+const activityLogsRouter = require('./routes/activityLogs');
 
 //Routing sin agrupamiento
 app.get('/', (req, res) => {
