@@ -9,6 +9,7 @@ const app = configureExpress();
 const User = require('./models/user');
 const Carrera = require('./models/carrera');
 const UsuarioCarrera = require('./models/usuario_carrera');
+const ActivityLogs = require('./models/activity_logs');
 
 //Swagger
 const swaggerUi = require('swagger-ui-express');
@@ -22,7 +23,7 @@ const swaggerOptions = {
       description: 'App para los usuarios de la Universidad (primer version para Alumnos), para que puedan consultar sus carreras,sus materias, inscribirse a carreras/materias y más.',
     },
   },
-  apis: ['swaggerSpec.js'],
+  apis: ['swaggerSpec.yaml'],
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
@@ -33,6 +34,7 @@ const usersRouter = require('./routes/user');
 const carrerasRouter = require('./routes/carreras');
 const inscripcionesRouter = require('./routes/inscripcion');
 const authRouter = require('./routes/auth');
+const activityLogsRouter = require('./routes/activityLogs');
 
 //Routing sin agrupamiento
 app.get('/', (req, res) => {
@@ -47,6 +49,7 @@ app.use('/users', usersRouter);
 app.use('/carreras', carrerasRouter);
 app.use('/inscripcion', inscripcionesRouter);
 app.use('/auth', authRouter);
+app.use('/activity-logs', activityLogsRouter);
 
 // Iniciar el servidor post sync de la db
 syncDatabase()

@@ -1,7 +1,7 @@
 const express = require('express');
-const User = require('../models/user');
+const { performance } = require('perf_hooks');
 const userService = require('../services/userService');
-const {deleteUser} = require('../services/userService');
+const activityService = require('../services/activityLogsService');
 const jwtMiddleware = require('../jwt');
 const router = express.Router();
 
@@ -19,23 +19,32 @@ router.get('/', async (req, res) => {
 //Get by id
 router.get("/:id", async (req, res) => {
     const userId = req.params.id;
-    try {    
-        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
-        await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error : error.toString() });
-    }
+    const start = performance.now();
+
     try {
-        const user = await userService.getUser(userId)
-        if (user) {
-            res.json(user);
-        } else {
-            res.status(404).json({ error: 'Usuario no encontrado' });
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
+        if(validationToken){
+            throw Error(validationToken);
         }
-    }  catch (err) {
-        console.error('Error al buscar el usuario:', err);
-        res.status(500).json({ error: 'Error al buscar el usuario' });
+        const user = await userService.getUser(userId);
+        let response = (user) ? user : { success: false, error: 'Usuario no encontrado' };
+
+        // Registro de actividad
+        await activityService.createActivity({
+            usuario_id: tokenParsed.id,
+            direccion_ip: req.ip,
+            metodo_http: req.method,
+            url_peticion: req.originalUrl,
+            datos_peticion: req.body,
+            respuesta_peticion: response,
+            duracion_peticion: performance.now() - start
+        });
+
+        return res.json(response);
+    } catch (error) {
+        console.error('Error al buscar el usuario:', error.message);
+        return res.status(500).json({ success: false, error: error.message });
     }
 });
 
@@ -47,7 +56,7 @@ router.post('/', async (req, res) => {
         res.json(user);
     } catch (err) {
         console.error('Error al crear el usuario:', err);
-        res.status(500).json({ error: 'Error al crear el usuario' });
+        res.status(500).json(err.toString());
     }
 });
 

@@ -22,9 +22,14 @@ function verifyAndParseToken(req) {
 
   //TODO terminar la funcion
 async function tokenValidationWithId(token, id) {
-  if (token  && token.id.toString() !== id) {
+  if (token === undefined){
+    console.error('Error al validar token. No existe token para validar', id);
+    return 'No existe token para validar';  
+  }else if (token.id.toString() !== id) {
       console.error('Error al validar token. Id distinto al Id del token:', id);
-      throw new Error('Id distinto al Id del token');
+      return 'Id distinto al Id del token';
+  }else{
+    return null;
   }
 }
 
