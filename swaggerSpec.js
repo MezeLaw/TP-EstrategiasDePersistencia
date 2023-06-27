@@ -222,15 +222,253 @@
  */
 
 
+/**
+ * @swagger
+ * tags:
+ *   name: Autenticacion
+ *   description: Endpoints relacionados con las autenticaciones.
+ */
+
+/**
+ * @swagger
+ * /auth:
+ *   post:
+ *     summary: Autenticación de usuario
+ *     tags: [Autenticacion]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             example:
+ *               email: correo@example.com
+ *               password: password123
+ *     responses:
+ *       200:
+ *         description: Autenticación exitosa
+ *       400:
+ *         description: Credenciales incorrectas
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error al generar token
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Logs
+ *   description: Endpoints relacionados con los logs de la aplicación.
+ */
+
+/**
+ * @swagger
+ * /activitylogs:
+ *   get:
+ *     summary: Obtiene todos los logs
+ *     tags: [Logs]
+ *     responses:
+ *       200:
+ *         description: Lista de logs obtenida exitosamente
+ *       500:
+ *         description: Error al obtener los logs
+ */
+
+/**
+ * @swagger
+ * /activitylogs/{id_usuario}:
+ *   get:
+ *     summary: Obtiene los logs por ID de usuario
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: id_usuario
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID del usuario para filtrar los logs
+ *     responses:
+ *       200:
+ *         description: Logs encontrados exitosamente
+ *       500:
+ *         description: Error al obtener los logs por ID de usuario
+ */
+
+/**
+ * @swagger
+ * /activitylogs/{metodo_http}:
+ *   get:
+ *     summary: Obtiene los logs por método HTTP
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: metodo_http
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Método HTTP para filtrar los logs
+ *     responses:
+ *       200:
+ *         description: Logs encontrados exitosamente
+ *       500:
+ *         description: Error al obtener los logs por método HTTP
+ */
+
+/**
+ * @swagger
+ * /activitylogs/ip/{direccion_ip}:
+ *   get:
+ *     summary: Obtiene los logs por dirección IP
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: direccion_ip
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Dirección IP para filtrar los logs
+ *     responses:
+ *       200:
+ *         description: Logs encontrados exitosamente
+ *       500:
+ *         description: Error al obtener los logs por dirección IP
+ */
+
+/**
+ * @swagger
+ * /activitylogs/url/{url_peticion}:
+ *   get:
+ *     summary: Obtiene los logs por endpoint de URL
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: url_peticion
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Endpoint de URL para filtrar los logs
+ *     responses:
+ *       200:
+ *         description: Logs encontrados exitosamente
+ *       500:
+ *         description: Error al obtener los logs por endpoint de URL
+ */
+
+/**
+ * @swagger
+ * /activitylogs/fecha/{fecha_exacta}:
+ *   get:
+ *     summary: Obtiene los logs por fecha exacta
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: fecha_exacta
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Fecha exacta para filtrar los logs (formato: yyyy-mm-dd)
+ *     responses:
+ *       200:
+ *         description: Logs encontrados exitosamente
+ *       500:
+ *         description: Error al obtener los logs por fecha exacta
+ */
+
+/**
+ * @swagger
+ * /activitylogs/fecha/{fecha_inicio}/{fecha_fin}:
+ *   get:
+ *     summary: Obtiene los logs entre dos fechas
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: fecha_inicio
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Fecha de inicio para filtrar los logs (formato: yyyy-mm-dd)
+ *       - in: path
+ *         name: fecha_fin
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Fecha de fin para filtrar los logs (formato: yyyy-mm-dd)
+ *     responses:
+ *       200:
+ *         description: Logs encontrados exitosamente
+ *       500:
+ *         description: Error al obtener los logs entre dos fechas
+ */
+
+/**
+ * @swagger
+ * /activitylogs/duracion/{duracion_min}/{duracion_max}:
+ *   get:
+ *     summary: Obtiene los logs por rango de duración
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: duracion_min
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Duración mínima para filtrar los logs
+ *       - in: path
+ *         name: duracion_max
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Duración máxima para filtrar los logs
+ *     responses:
+ *       200:
+ *         description: Logs encontrados exitosamente
+ *       500:
+ *         description: Error al obtener los logs por rango de duración
+ */
+
+/**
+ * @swagger
+ * /activitylogs/{id}:
+ *   delete:
+ *     summary: Elimina un log por ID
+ *     tags: [Logs]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID del log a eliminar
+ *     responses:
+ *       200:
+ *         description: Log eliminado exitosamente
+ *       404:
+ *         description: Log no encontrado
+ *       500:
+ *         description: Error al eliminar el log
+ */
+
+
 module.exports = {
-    swaggerDefinition: {
+  swaggerDefinition: {
       openapi: '3.0.0',
-      info: {
+    info: {
         title: 'API Documentation',
         version: '1.0.0',
         description: 'API Documentation for your project',
-      },
     },
-    apis: ['./routes/carreras.js', './routes/user.js'],
-  };
-  
+  },
+  apis: [
+    './routes/carreras.js',
+    './routes/user.js',
+    './routes/inscripcion.js',
+    './routes/auth.js',
+    './routes/activityLogs.js',
+  ],
+};
