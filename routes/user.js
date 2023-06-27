@@ -48,8 +48,10 @@ router.get("/:id", async (req, res) => {
 
     try {
         const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
-        await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
-
+        const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
+        if(validationToken){
+            throw Error(validationToken);
+        }
         const user = await userService.getUser(userId);
         let response = (user) ? user : { success: false, error: 'Usuario no encontrado' };
 
@@ -65,9 +67,9 @@ router.get("/:id", async (req, res) => {
         });
 
         return res.json(response);
-    } catch (err) {
-        console.error('Error al buscar el usuario:', err);
-        return res.status(500).json({ success: false, error: 'Error al buscar el usuario' });
+    } catch (error) {
+        console.error('Error al buscar el usuario:', error.message);
+        return res.status(500).json({ success: false, error: error.message });
     }
 });
 

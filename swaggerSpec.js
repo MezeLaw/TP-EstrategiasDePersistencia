@@ -95,7 +95,7 @@
 
 /**
  * @swagger
- * /usuarios:
+ * /users:
  *   get:
  *     summary: Obtiene todos los usuarios
  *     tags: [Usuarios]
@@ -108,7 +108,7 @@
 
 /**
  * @swagger
- * /usuarios/{id}:
+ * /users/{id}:
  *   get:
  *     summary: Obtiene un usuario por ID
  *     tags: [Usuarios]
@@ -130,7 +130,7 @@
 
 /**
  * @swagger
- * /usuarios:
+ * /users:
  *   post:
  *     summary: Crea un nuevo usuario
  *     tags: [Usuarios]
@@ -166,7 +166,7 @@
 
 /**
  * @swagger
- * /usuarios/{id}:
+ * /users/{id}:
  *   delete:
  *     summary: Elimina un usuario por ID
  *     tags: [Usuarios]
@@ -269,7 +269,7 @@
 
 /**
  * @swagger
- * /activitylogs:
+ * /activity-logs:
  *   get:
  *     summary: Obtiene todos los logs
  *     tags: [Logs]
@@ -282,7 +282,7 @@
 
 /**
  * @swagger
- * /activitylogs/{id_usuario}:
+ * /activity-logs/{id_usuario}:
  *   get:
  *     summary: Obtiene los logs por ID de usuario
  *     tags: [Logs]
@@ -302,7 +302,7 @@
 
 /**
  * @swagger
- * /activitylogs/{metodo_http}:
+ * /activity-logs/{metodo_http}:
  *   get:
  *     summary: Obtiene los logs por método HTTP
  *     tags: [Logs]
@@ -322,7 +322,7 @@
 
 /**
  * @swagger
- * /activitylogs/ip/{direccion_ip}:
+ * /activity-logs/ip/{direccion_ip}:
  *   get:
  *     summary: Obtiene los logs por dirección IP
  *     tags: [Logs]
@@ -342,7 +342,7 @@
 
 /**
  * @swagger
- * /activitylogs/url/{url_peticion}:
+ * /activity-logs/url/{url_peticion}:
  *   get:
  *     summary: Obtiene los logs por endpoint de URL
  *     tags: [Logs]
@@ -362,7 +362,7 @@
 
 /**
  * @swagger
- * /activitylogs/fecha/{fecha_exacta}:
+ * /activity-logs/fecha/{fecha_exacta}:
  *   get:
  *     summary: Obtiene los logs por fecha exacta
  *     tags: [Logs]
@@ -372,7 +372,8 @@
  *         schema:
  *           type: string
  *         required: true
- *         description: Fecha exacta para filtrar los logs (formato: yyyy-mm-dd)
+ *         description: |
+ *           Fecha exacta para filtrar los logs (formato: yyyy-mm-dd)
  *     responses:
  *       200:
  *         description: Logs encontrados exitosamente
@@ -382,7 +383,7 @@
 
 /**
  * @swagger
- * /activitylogs/fecha/{fecha_inicio}/{fecha_fin}:
+ * /activity-logs/fecha/{fecha_inicio}/{fecha_fin}:
  *   get:
  *     summary: Obtiene los logs entre dos fechas
  *     tags: [Logs]
@@ -392,13 +393,15 @@
  *         schema:
  *           type: string
  *         required: true
- *         description: Fecha de inicio para filtrar los logs (formato: yyyy-mm-dd)
+ *         description: |
+ *           Fecha de inicio para filtrar los logs (formato: yyyy-mm-dd)
  *       - in: path
  *         name: fecha_fin
  *         schema:
  *           type: string
  *         required: true
- *         description: Fecha de fin para filtrar los logs (formato: yyyy-mm-dd)
+ *         description: |
+ *           Fecha de fin para filtrar los logs (formato: yyyy-mm-dd)
  *     responses:
  *       200:
  *         description: Logs encontrados exitosamente
@@ -408,7 +411,7 @@
 
 /**
  * @swagger
- * /activitylogs/duracion/{duracion_min}/{duracion_max}:
+ * /activity-logs/duracion/{duracion_min}/{duracion_max}:
  *   get:
  *     summary: Obtiene los logs por rango de duración
  *     tags: [Logs]
@@ -434,7 +437,7 @@
 
 /**
  * @swagger
- * /activitylogs/{id}:
+ * /activity-logs/{id}:
  *   delete:
  *     summary: Elimina un log por ID
  *     tags: [Logs]
