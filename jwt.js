@@ -33,9 +33,22 @@ async function tokenValidationWithId(token, id) {
   }
 }
 
+async function getRolFromToken(token) {
+    if (!token){
+        console.error('Error al validar token. No existe token para validar');
+        return 'No existe token para validar';
+    }
+    if (token.rol.toString() !== null) {
+        console.log('El rol del token es de tipo:', token.rol.toString());
+        return token.rol.toString();
+    }
+    return 'Token con rol inexistente'
+}
+
+
 module.exports = {
     generateToken,
-    verifyToken,
+    getRolFromToken,
     verifyAndParseToken,
     tokenValidationWithId
   };
