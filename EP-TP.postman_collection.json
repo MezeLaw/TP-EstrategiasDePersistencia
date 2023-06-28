@@ -12,6 +12,16 @@
 				{
 					"name": "Delete Usuario by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -28,7 +38,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "555"
 								}
 							]
 						}
@@ -38,6 +48,16 @@
 				{
 					"name": "Obtener Usuarios",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -61,7 +81,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Meze\",\r\n    \"lastname\": \"Lawyer\",\r\n    \"dni\": \"37869099\",\r\n    \"email\": \"mezelaw@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Nico\",\r\n    \"lastname\": \"Coluccio\",\r\n    \"dni\": \"37123677\",\r\n    \"email\": \"nico@admin.com\",\r\n    \"password\": \"password\",\r\n    \"rol\":\"ADMIN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -85,6 +105,16 @@
 				{
 					"name": "Obtener Usuario by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -101,7 +131,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -135,6 +165,16 @@
 				{
 					"name": "Obtener carrera by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -161,6 +201,16 @@
 				{
 					"name": "Delete carrera by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -187,11 +237,21 @@
 				{
 					"name": "Crear carrera",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Estrategias de Persistencia I\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Estrategias de Persistencia IV\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -220,6 +280,16 @@
 				{
 					"name": "Inscribir usuario a carrera",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -239,11 +309,11 @@
 							"variable": [
 								{
 									"key": "carreraId",
-									"value": null
+									"value": "1"
 								},
 								{
 									"key": "usuarioId",
-									"value": null
+									"value": "1"
 								}
 							]
 						}
@@ -257,6 +327,18 @@
 			"item": [
 				{
 					"name": "Get Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resp = pm.response.json(); \r",
+									"pm.environment.set(\"token\", resp.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "jwt",
@@ -319,6 +401,271 @@
 							"path": [
 								"auth",
 								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "Obtener logs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/activity-logs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activity-logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener logs por user ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/activity-logs/:id_usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activity-logs",
+								":id_usuario"
+							],
+							"variable": [
+								{
+									"key": "id_usuario",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener logs por metodo HTTP",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/activity-logs/http/method/:metodo_http",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activity-logs",
+								"http",
+								"method",
+								":metodo_http"
+							],
+							"variable": [
+								{
+									"key": "metodo_http",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener logs por endpoint",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/activity-logs/:url_peticion",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activity-logs",
+								":url_peticion"
+							],
+							"variable": [
+								{
+									"key": "url_peticion",
+									"value": "/users/1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener logs de una fecha particular",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/activity-logs/fecha/:fecha_exacta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activity-logs",
+								"fecha",
+								":fecha_exacta"
+							],
+							"variable": [
+								{
+									"key": "fecha_exacta",
+									"value": "2023-06-28 04:17:36.000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener logs por rango de fechas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/activity-logs/fecha/:fecha_inicio/:fecha_fin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activity-logs",
+								"fecha",
+								":fecha_inicio",
+								":fecha_fin"
+							],
+							"variable": [
+								{
+									"key": "fecha_inicio",
+									"value": "2023-06-28 04:17:36.000"
+								},
+								{
+									"key": "fecha_fin",
+									"value": "2023-06-28 04:17:36.000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener logs por rango de tiempo de duracion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/activity-logs/duracion/:duracion_min/:duracion_max",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activity-logs",
+								"duracion",
+								":duracion_min",
+								":duracion_max"
+							],
+							"variable": [
+								{
+									"key": "duracion_min",
+									"value": "1"
+								},
+								{
+									"key": "duracion_max",
+									"value": "30000"
+								}
 							]
 						}
 					},
