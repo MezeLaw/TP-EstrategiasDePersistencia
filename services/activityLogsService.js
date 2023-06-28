@@ -121,7 +121,6 @@ async function getActivitiesByUsuarioId(usuarioId) {
 module.exports = {
     createActivity,
     getActivities,
-    getActivityById,
     getActivitiesByUsuarioId,
     getActivitiesBetweenDates,
     getActivitiesByDurationRange,
