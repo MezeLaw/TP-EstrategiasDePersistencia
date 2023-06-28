@@ -39,34 +39,6 @@ async function userUpdateV2(user, updatedData) {
     }
 }
 
-async function userUpdate(user, updatedData) {
-    try {        
-        if (updatedData.name) {
-            user.name = updatedData.name;
-        }
-        if (updatedData.lastname) {
-            user.lastname = updatedData.lastname;
-        }
-        if (updatedData.dni) {
-            user.dni = updatedData.dni;
-        }
-        if (updatedData.email) {
-            user.email = updatedData.email;
-        }
-        if (updatedData.password) {
-            user.password = updatedData.password;
-        }
-        if (user.deletedAt){
-            user.deletedAt = null;
-        }
-        await user.save();       
-        return user;
-    } catch (err) {
-        console.error('Error al actualizar el usuario:', err);
-        throw new Error('Error al actualizar el usuario');
-    }
-}
-
 async function getUser(id) {
     try {
         const user = await User.findByPk(id);

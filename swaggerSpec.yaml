@@ -46,6 +46,8 @@ paths:
                   type: string
               example:
                 name: Nombre de la carrera
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Carrera creada exitosamente
@@ -83,6 +85,8 @@ paths:
             type: string
           required: true
           description: ID de la carrera a eliminar
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Carrera eliminada exitosamente
@@ -96,6 +100,8 @@ paths:
       summary: Obtiene todos los usuarios
       tags:
         - Usuarios
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Lista de usuarios obtenida exitosamente
@@ -129,6 +135,8 @@ paths:
                 dni: DNI del usuario
                 email: Correo electrónico del usuario
                 password: Contraseña del usuario
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Usuario creado exitosamente
@@ -147,6 +155,8 @@ paths:
             type: string
           required: true
           description: ID del usuario a buscar
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Usuario encontrado exitosamente
@@ -166,6 +176,8 @@ paths:
             type: string
           required: true
           description: ID del usuario a eliminar
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Usuario eliminado exitosamente
@@ -237,6 +249,8 @@ paths:
       summary: Obtiene todos los logs
       tags: 
         - Logs
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Lista de logs obtenida exitosamente
@@ -255,6 +269,8 @@ paths:
             type: string
           required: true
           description: ID del usuario para filtrar los logs
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Logs encontrados exitosamente
@@ -273,6 +289,8 @@ paths:
             type: string
           required: true
           description: Método HTTP para filtrar los logs
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Logs encontrados exitosamente
@@ -291,6 +309,8 @@ paths:
             type: string
           required: true
           description: Dirección IP para filtrar los logs
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Logs encontrados exitosamente
@@ -309,6 +329,8 @@ paths:
             type: string
           required: true
           description: Endpoint de URL para filtrar los logs
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Logs encontrados exitosamente
@@ -329,6 +351,8 @@ paths:
           description:
             - Fecha exacta para filtrar los logs
             - Formato: yyyy-mm-dd
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Logs encontrados exitosamente
@@ -357,6 +381,8 @@ paths:
           description:
             - Fecha de fin para filtrar los logs
             - Formato: yyyy-mm-dd    
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Logs encontrados exitosamente
@@ -381,6 +407,8 @@ paths:
             type: integer
           required: true
           description: Duración máxima para filtrar los logs
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Logs encontrados exitosamente
@@ -399,6 +427,8 @@ paths:
             type: string
           required: true
           description: ID del log a eliminar
+      security:
+        - BearerAuth: []
       responses:
         '200':
           description: Log eliminado exitosamente
