@@ -4,10 +4,9 @@ const User = require('../models/user');
 
 async function createUser({ name, lastname, dni, email, password }) {    
     try {
-        const asd = "";
-        if (getUserByDni(dni)){
+        if (await getUserByDni(dni)){
             throw new Error('Ya existe un usuario con el dni: '+ dni);
-        } else if (getUserByEmail(email)) {
+        } else if (await getUserByEmail(email)) {
             throw new Error('Ya existe un usuario con el email: '+ email);
         }
         const hashedPassword = await bcrypt.hash(password, 10);
