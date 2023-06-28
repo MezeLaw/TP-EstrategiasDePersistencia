@@ -28,6 +28,7 @@ async function createUser({ name, lastname, dni, email, password, rol }) {
 
 async function userUpdateV2(user, updatedData) {
     try {
+        updatedData.rol = user.rol //como en la creacion el usuario no puede enviar el rol, en caso de reactivacion copio lo que ya existia
         Object.assign(user, updatedData);
         user.deletedAt = null;
 
