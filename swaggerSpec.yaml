@@ -147,8 +147,6 @@ paths:
             type: string
           required: true
           description: ID del usuario a buscar
-      security:
-        - BearerAuth: []
       responses:
         '200':
           description: Usuario encontrado exitosamente

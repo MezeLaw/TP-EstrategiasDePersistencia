@@ -6,10 +6,11 @@ async function createUser({ name, lastname, dni, email, password }) {
     try {
         const userByDni = await getUserByDni(dni);
         const userByEmail = await getUserByEmail(email);
+        const hashedPassword = await bcrypt.hash(password, 10);
         //TODO mejorar el control al momento de crear usuario
         if (userByDni){
             if(userByDni.deletedAt && (!userByEmail || userByDni.email === (email))){
-                return await userUpdateV2(userByDni, { name, lastname, dni, email, password });
+                return await userUpdateV2(userByDni, { name, lastname, dni, email, password: hashedPassword });
             } else {
                 throw new Error('Ya existe un usuario con el dni provisto');
             }
@@ -17,7 +18,6 @@ async function createUser({ name, lastname, dni, email, password }) {
         if(userByEmail){
             throw new Error('Ya existe un usuario con el email provisto');                 
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ name, lastname, dni, email, password: hashedPassword });
         return user;
     } catch (error) {
