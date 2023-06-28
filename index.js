@@ -56,6 +56,10 @@ syncDatabase()
     .then(() => {
   // Iniciar el servidor solo después de sincronizar la base de datos
   app.listen(3000, () => {
-            console.log('Servidor escuchando en el puerto 3000');
+    if(!process.env.EJECUCION_TEST){
+      console.log('Servidor escuchando en el puerto 3000');
+    }
   });
 });
+
+module.exports = app;

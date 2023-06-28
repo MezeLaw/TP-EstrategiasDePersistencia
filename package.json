@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "SET EJECUCION_TEST=true && mocha tests --exit --silent",
+    "test-report": "SET EJECUCION_TEST=true && mocha tests --reporter mochawesome --reporter-options reportFilename=carreras-test-reports,reportDir=./tests-reports,json=false --exit --silent"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +16,12 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mariadb": "^3.2.0",
+    "mocha": "^10.2.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-report-generator": "^6.2.0",
     "performance-now": "^2.1.0",
     "sequelize": "^6.32.1",
+    "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3"
   }
