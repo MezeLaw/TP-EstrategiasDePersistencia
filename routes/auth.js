@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
                 const token = jwtMiddleware.generateToken({
                     id: user.id
                 });
-                res.json(token);
+                res.status(200).json({access_token: token})
             } else {
               console.log('La contraseña es incorrecta');
               throw new Error('Credenciales incorrectas');
