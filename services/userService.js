@@ -4,10 +4,18 @@ const User = require('../models/user');
 
 async function createUser({ name, lastname, dni, email, password }) {    
     try {
-        if (await getUserByDni(dni)){
-            throw new Error('Ya existe un usuario con el dni: '+ dni);
-        } else if (await getUserByEmail(email)) {
-            throw new Error('Ya existe un usuario con el email: '+ email);
+        const userByDni = await getUserByDni(dni);
+        const userByEmail = await getUserByEmail(email);
+        //TODO mejorar el control al momento de crear usuario
+        if (userByDni){
+            if(userByDni.deletedAt && (!userByEmail || userByDni.email === (email))){
+                return await userUpdateV2(userByDni, { name, lastname, dni, email, password });
+            } else {
+                throw new Error('Ya existe un usuario con el dni provisto');
+            }
+        }
+        if(userByEmail){
+            throw new Error('Ya existe un usuario con el email provisto');                 
         }
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ name, lastname, dni, email, password: hashedPassword });
@@ -15,6 +23,47 @@ async function createUser({ name, lastname, dni, email, password }) {
     } catch (error) {
         console.error('Error al crear el usuario:', error);
         throw new Error(error);
+    }
+}
+
+async function userUpdateV2(user, updatedData) {
+    try {
+        Object.assign(user, updatedData);
+        user.deletedAt = null;
+
+        await user.save();
+        return user;
+    } catch (err) {
+        console.error('Error al actualizar el usuario:', err);
+        throw new Error('Error al actualizar el usuario');
+    }
+}
+
+async function userUpdate(user, updatedData) {
+    try {        
+        if (updatedData.name) {
+            user.name = updatedData.name;
+        }
+        if (updatedData.lastname) {
+            user.lastname = updatedData.lastname;
+        }
+        if (updatedData.dni) {
+            user.dni = updatedData.dni;
+        }
+        if (updatedData.email) {
+            user.email = updatedData.email;
+        }
+        if (updatedData.password) {
+            user.password = updatedData.password;
+        }
+        if (user.deletedAt){
+            user.deletedAt = null;
+        }
+        await user.save();       
+        return user;
+    } catch (err) {
+        console.error('Error al actualizar el usuario:', err);
+        throw new Error('Error al actualizar el usuario');
     }
 }
 
@@ -31,7 +80,6 @@ async function getUser(id) {
 async function getUserByEmail(email) {
     try {
         const user = await User.findOne({
-                attributes: ["id", "email", "password"],
                 where: { email }
         });
         return user;
@@ -44,7 +92,6 @@ async function getUserByEmail(email) {
 async function getUserByDni(dni) {
     try {
         const user = await User.findOne({
-                attributes: ["id", "email", "password"],
                 where: { dni }
         });
         return user;
