@@ -1,6 +1,8 @@
 const express = require('express');
 const carreraService = require('../services/carreraService');
-
+const jwtMiddleware = require("../jwt");
+const adminRol = "ADMIN"
+const permisosInsuficientes = "El usuario no tiene los permisos necesarios para realizar la operacion"
 const router = express.Router();
 
 // Get carreras
@@ -34,6 +36,13 @@ router.get("/:id",async (req, res) => {
 router.post('/', async (req, res) => {
     const { name } = req.body;
     try {
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        const rolTokenValidation = await jwtMiddleware.getRolFromToken(tokenParsed);
+        if(rolTokenValidation!== adminRol){
+            console.log(permisosInsuficientes)
+            res.status(401).json({ error: permisosInsuficientes });
+            return
+        }
         const carrera = await carreraService.createCarrera({ name });
         res.json(carrera);
     } catch (err) {
@@ -46,6 +55,13 @@ router.post('/', async (req, res) => {
 router.delete("/:id",async (req, res) => {
     const carreraId = req.params.id;
     try {
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        const rolTokenValidation = await jwtMiddleware.getRolFromToken(tokenParsed);
+        if(rolTokenValidation!== adminRol){
+            console.log(permisosInsuficientes)
+            res.status(401).json({ error: permisosInsuficientes });
+            return
+        }
         const carrera = await carreraService.getCarrera(carreraId)
         if (carrera) {
              const deletedCarrera = await carreraService.deleteCarrera(carrera)

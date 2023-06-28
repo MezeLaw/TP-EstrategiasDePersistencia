@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 
-async function createUser({ name, lastname, dni, email, password }) {    
+async function createUser({ name, lastname, dni, email, password, rol }) {
     try {
         const userByDni = await getUserByDni(dni);
         const userByEmail = await getUserByEmail(email);
@@ -10,7 +10,7 @@ async function createUser({ name, lastname, dni, email, password }) {
         //TODO mejorar el control al momento de crear usuario
         if (userByDni){
             if(userByDni.deletedAt && (!userByEmail || userByDni.email === (email))){
-                return await userUpdateV2(userByDni, { name, lastname, dni, email, password: hashedPassword });
+                return await userUpdateV2(userByDni, { name, lastname, dni, email, password: hashedPassword, rol });
             } else {
                 throw new Error('Ya existe un usuario con el dni provisto');
             }
@@ -18,7 +18,7 @@ async function createUser({ name, lastname, dni, email, password }) {
         if(userByEmail){
             throw new Error('Ya existe un usuario con el email provisto');                 
         }
-        const user = await User.create({ name, lastname, dni, email, password: hashedPassword });
+        const user = await User.create({ name, lastname, dni, email, password: hashedPassword, rol });
         return user;
     } catch (error) {
         console.error('Error al crear el usuario:', error);
@@ -28,6 +28,7 @@ async function createUser({ name, lastname, dni, email, password }) {
 
 async function userUpdateV2(user, updatedData) {
     try {
+        updatedData.rol = user.rol //como en la creacion el usuario no puede enviar el rol, en caso de reactivacion copio lo que ya existia
         Object.assign(user, updatedData);
         user.deletedAt = null;
 

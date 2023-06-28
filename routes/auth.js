@@ -14,7 +14,8 @@ router.post('/', async (req, res) => {
             const passwordMatching = await bcrypt.compare(password, user.password);
             if (passwordMatching) {
                 const token = jwtMiddleware.generateToken({
-                    id: user.id
+                    id: user.id,
+                    rol: user.rol
                 });
                 res.status(200).json({access_token: token})
             } else {
