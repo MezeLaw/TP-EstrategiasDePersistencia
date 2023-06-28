@@ -4,6 +4,7 @@ const express = require('express');
 const userService = require("../services/userService");
 const carreraService = require('../services/carreraService')
 const usuarioCarreraService = require('../services/usuarioCarreraService')
+const jwtMiddleware = require("../jwt");
 
 const router = express.Router();
 
@@ -11,6 +12,13 @@ router.post('/carrera/:carreraId/usuario/:userId', async (req, res) => {
 
     const userId = req.params.carreraId;
     const carreraId = req.params.userId;
+
+    const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+    const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
+    if(validationToken){
+        throw Error(validationToken);
+    }
+
     try {
         const user = await userService.getUser(userId);
         const carrera = await carreraService.getCarrera(carreraId)
@@ -29,5 +37,7 @@ router.post('/carrera/:carreraId/usuario/:userId', async (req, res) => {
         res.status(500).json({ error: 'Error al registrar la carrera para el usuario' });
     }
 });
+
+//TODO agregar endpoint para consultar carreras en las que el usuario esta anotado
 
 module.exports = router;
