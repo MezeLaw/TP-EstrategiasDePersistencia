@@ -193,20 +193,19 @@ paths:
         - Inscripción
       security:
         - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                carrera_id:
-                  type: string
-                usuario_id:
-                  type: string
-              example:
-                carrera_id: ID de la carrera a la que se desea inscribir
-                usuario_id: ID del usuario que desea inscribirse
+      parameters:
+        - in: path
+          name: carrera_id
+          schema:
+            type: string
+          required: true
+          description: ID de la carrera a la que se desea inscribir
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario que desea inscribirse
       responses:
         '200':
           description: Inscripción exitosa
@@ -222,17 +221,13 @@ paths:
         - Inscripción
       security:
         - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                usuario_id:
-                  type: string
-              example:
-                usuario_id: ID del usuario al que desea buscar sus carreras inscriptas
+      parameters:
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario al que desea buscar sus carreras inscriptas
       responses:
         '200':
           description: Carreras encontradas exitosamente
@@ -248,17 +243,13 @@ paths:
         - Inscripción
       security:
         - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                usuario_id:
-                  type: string
-              example:
-                usuario_id: ID del usuario al que desea buscar sus materias inscriptas
+      parameters:
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario al que desea buscar sus materias inscriptas
       responses:
         '200':
           description: Materias encontradas exitosamente
@@ -274,20 +265,19 @@ paths:
         - Inscripción
       security:
         - BearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                materia_id:
-                  type: string
-                usuario_id:
-                  type: string
-              example:
-                materia_id: ID de la materia a la que se desea inscribir
-                usuario_id: ID del usuario que desea inscribirse
+      parameters:
+        - in: path
+          name: materia_id
+          schema:
+            type: string
+          required: true
+          description: ID de la materia a la que se desea inscribir
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario que desea inscribirse
       responses:
         '200':
           description: Inscripción exitosa
