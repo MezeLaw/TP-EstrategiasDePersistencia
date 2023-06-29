@@ -83,11 +83,17 @@ router.post('/materia/:materia_id/usuario/:usuario_id', async (req, res) => {
 
     try {
         const user = await userService.getUser(userId);
-        const materia = await carreraService.getCarrera(materiaId)
+        const materia = await materiaService.getMateria(materiaId)
 
         if (!user || !materia) {
             res.status(404).json({ error: 'Usuario o materia no encontrados' });
         }
+
+        const idsCarrerasDeUsuario = usuarioCarreraService.getCarrerasUsuarioInscripto(userId).map(carrera => carrera.id);
+        if (!idsCarrerasDeUsuario.includes(materia.carrera_id)) {
+            res.status(404).json({ error: 'La materia no pertenece a una carrera que el usuario este inscripto' });
+        }          
+
         const usuarioMateria = await usuarioMateriaService.inscribirUsuarioEnMateria(userId, materiaId)
         if (usuarioMateria == null) {
             res.status(500).json({ error: 'Ocurrio un error al intentar realizar la inscripcion' });

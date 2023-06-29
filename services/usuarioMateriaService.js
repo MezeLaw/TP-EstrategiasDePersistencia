@@ -28,8 +28,8 @@ async function getMateriasUsuarioInscripto(usuarioId) {
             });                
         return materias;
     } catch (err) {
-        console.error('Error al consultar las materias inscriptas del usuario previsto:', err);
-        throw new Error('Error al consultar las materias inscriptas del usuario previsto');
+        console.error('Error al consultar las materias inscriptas del usuario provisto:', err);
+        throw new Error('Error al consultar las materias inscriptas del usuario provisto');
     }
 }
 

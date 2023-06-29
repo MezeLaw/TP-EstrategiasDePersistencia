@@ -28,8 +28,8 @@ async function getCarrerasUsuarioInscripto(usuarioId) {
             });                
         return carreras;
     } catch (err) {
-        console.error('Error al consultar las carreras inscriptas del usuario previsto:', err);
-        throw new Error('Error al consultar las carreras inscriptas del usuario previsto');
+        console.error('Error al consultar las carreras inscriptas del usuario provisto:', err);
+        throw new Error('Error al consultar las carreras inscriptas del usuario provisto');
     }
 }
 
