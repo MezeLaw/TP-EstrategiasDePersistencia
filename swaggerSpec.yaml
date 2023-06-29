@@ -186,7 +186,7 @@ paths:
         '500':
           description: Error al buscar o eliminar el usuario
 
-  /inscripcion/carrera/{carreraId}/usuario/{userId}:
+  /inscripcion/carrera/{carrera_id}/usuario/{usuario_id}:
     post:
       summary: Realiza la inscripción de un usuario a una carrera
       tags:
@@ -212,6 +212,87 @@ paths:
           description: Inscripción exitosa
         '404':
           description: Usuario o carrera no encontrados
+        '500':
+          description: Error al intentar realizar la inscripción
+
+  /inscripcion/carrera/usuario/{usuario_id}:
+    get:
+      summary: Realiza la consulta de las carreras a las que esta inscripto un usuario
+      tags:
+        - Inscripción
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario_id:
+                  type: string
+              example:
+                usuario_id: ID del usuario al que desea buscar sus carreras inscriptas
+      responses:
+        '200':
+          description: Carreras encontradas exitosamente
+        '404':
+          description: Carreras no encontradas
+        '500':
+          description: Error al buscar las carreras
+
+  /inscripcion/materia/usuario/{usuario_id}:
+    get:
+      summary: Realiza la consulta de las materias a las que esta inscripto un usuario
+      tags:
+        - Inscripción
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario_id:
+                  type: string
+              example:
+                usuario_id: ID del usuario al que desea buscar sus materias inscriptas
+      responses:
+        '200':
+          description: Materias encontradas exitosamente
+        '404':
+          description: Materias no encontradas
+        '500':
+          description: Error al buscar las materias
+
+  /inscripcion/materia/{materia_id}/usuario/{usuario_id}:
+    post:
+      summary: Realiza la inscripción de un usuario a una materia
+      tags:
+        - Inscripción
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                materia_id:
+                  type: string
+                usuario_id:
+                  type: string
+              example:
+                materia_id: ID de la materia a la que se desea inscribir
+                usuario_id: ID del usuario que desea inscribirse
+      responses:
+        '200':
+          description: Inscripción exitosa
+        '404':
+          description: Usuario o materia no encontrados
         '500':
           description: Error al intentar realizar la inscripción
 

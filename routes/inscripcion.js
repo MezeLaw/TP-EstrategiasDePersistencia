@@ -11,10 +11,10 @@ const jwtMiddleware = require("../jwt");
 const router = express.Router();
 
 //Inscripcion a carrera
-router.post('/carrera/:carreraId/usuario/:userId', async (req, res) => {
+router.post('/carrera/:carrera_id/usuario/:usuario_id', async (req, res) => {
 
-    const userId = req.params.userId;
-    const carreraId = req.params.carreraId;
+    const userId = req.params.usuario_id;
+    const carreraId = req.params.carrera_id;
 
     const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
     const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
@@ -42,8 +42,8 @@ router.post('/carrera/:carreraId/usuario/:userId', async (req, res) => {
 });
 
 //Consulta carreras inscriptas
-router.get('/carrera/usuario/:userId', async (req, res) => {
-    const userId = req.params.userId;
+router.get('/carrera/usuario/:usuario_id', async (req, res) => {
+    const userId = req.params.usuario_id;
 
     const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
     const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
@@ -70,10 +70,10 @@ router.get('/carrera/usuario/:userId', async (req, res) => {
 
 
 //Inscripcion a materia
-router.post('/materia/:materiaId/usuario/:userId', async (req, res) => {
+router.post('/materia/:materia_id/usuario/:usuario_id', async (req, res) => {
 
-    const userId = req.params.userId;
-    const materiaId = req.params.materiaId;
+    const userId = req.params.usuario_id;
+    const materiaId = req.params.materia_id;
 
     const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
     const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
@@ -101,8 +101,8 @@ router.post('/materia/:materiaId/usuario/:userId', async (req, res) => {
 });
 
 //Consulta materias inscriptas
-router.get('/materia/usuario/:userId', async (req, res) => {
-    const userId = req.params.userId;
+router.get('/materia/usuario/:usuario_id', async (req, res) => {
+    const userId = req.params.usuario_id;
 
     const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
     const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
