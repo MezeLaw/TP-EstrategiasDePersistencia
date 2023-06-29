@@ -16,8 +16,22 @@ router.get('/', async (req, res) => {
             console.log(permisosInsuficientes)
             throw Error(permisosInsuficientes);
         }
-        const users = await userService.getUsers()
+        const users = await userService.getUsers();
         res.json(users);
+    } catch (err) {
+        console.error('Error al obtener los usuarios:', err.toString());
+        res.status(500).json({ error: 'Error al obtener los usuarios.' + err.toString() });
+    }
+});
+
+// Get users con paginado
+router.get('/:pagina_actual/:cantidad_a_ver', async (req, res) => {
+    try {
+      const paginaActual = parseInt(req.params.pagina_actual) || 1;
+      const cantidadAVer = parseInt(req.params.cantidad_a_ver) || 10;
+        console.log("asdas");
+      const users = await userService.getUsersWithPagination(paginaActual, cantidadAVer);
+      res.json(users);
     } catch (err) {
         console.error('Error al obtener los usuarios:', err.toString());
         res.status(500).json({ error: 'Error al obtener los usuarios.' + err.toString() });

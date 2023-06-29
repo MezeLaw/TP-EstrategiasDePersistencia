@@ -186,6 +186,32 @@ paths:
         '500':
           description: Error al buscar o eliminar el usuario
 
+  /users/{pagina_actual}/{cantidad_a_ver}:
+    get:
+      summary: Obtiene la cantidad de usuarios que quiera en la pagina que quiera.
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: pagina_actual
+          schema:
+            type: string
+          required: true
+          description: Pagina actual que desea ver
+        - in: path
+          name: cantidad_a_ver
+          schema:
+            type: string
+          required: true
+          description: Cantidad de usuarios por pagina que desea ver
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+        '500':
+          description: Error al obtener los usuarios    
+
   /inscripcion/carrera/{carrera_id}/usuario/{usuario_id}:
     post:
       summary: Realiza la inscripción de un usuario a una carrera

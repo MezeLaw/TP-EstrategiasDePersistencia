@@ -95,11 +95,27 @@ async function getUsers() {
     }
 }
 
+async function getUsersWithPagination(paginaActual, cantidadAVer) {
+    try {
+      const offset = (paginaActual - 1) * cantidadAVer;
+      const limit = cantidadAVer;
+  
+      const users = await User.findAll({ offset, limit });
+  
+      return users;
+    } catch (err) {
+      console.error('Error al intentar obtener los usuarios:', err);
+      throw new Error('Error al intentar obtener los usuarios');
+    }
+  }
+  
+
 module.exports = {
     createUser,
     getUser,
     getUsers,
     getUserByEmail,
     getUserByDni,
+    getUsersWithPagination,
     deleteUser
 };
