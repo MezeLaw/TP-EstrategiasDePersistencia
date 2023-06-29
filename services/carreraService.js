@@ -23,11 +23,11 @@ async function getCarrera(id) {
     }
 }
 
-async function deleteCarrera(Carrera) {
+async function deleteCarrera(carrera) {
     try {
-        Carrera.deletedAt = new Date()
-        await Carrera.save();
-        return Carrera
+        carrera.deletedAt = new Date()
+        await carrera.save();
+        return carrera
     } catch (err) {
         console.error('Error al intentar eliminar la Carrera con id :', Carrera.id, err);
         throw new Error('Error al intentar eliminar la Carrera');

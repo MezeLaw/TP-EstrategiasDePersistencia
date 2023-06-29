@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const activityLogs = sequelize.sequelize.define('activity_logs', {
+const ActivityLogs = sequelize.sequelize.define('activity_logs', {
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -38,5 +38,5 @@ const activityLogs = sequelize.sequelize.define('activity_logs', {
     }
 });
 
-module.exports = activityLogs;
+module.exports = ActivityLogs;
 
