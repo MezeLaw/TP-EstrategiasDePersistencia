@@ -64,7 +64,7 @@ router.delete("/:id",async (req, res) => {
         }
         const carrera = await carreraService.getCarrera(carreraId)
         if (carrera) {
-             const deletedCarrera = await carreraService.deleteCarrera(carrera)
+            const deletedCarrera = await carreraService.deleteCarrera(carrera)
             res.status(200).json({deletedCarrera})
         } else {
             res.status(404).json({ error: 'carrera no encontrada' });

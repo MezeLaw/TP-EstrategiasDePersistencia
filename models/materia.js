@@ -1,32 +1,25 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Carrera = require('./Carrera'); // Importa el modelo Carrera
 
-const ActivityLogs = sequelize.sequelize.define('activity_logs', {
+const Materia = sequelize.sequelize.define('materias', {
     id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    usuario_id:{
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    metodo_http: {
+    name: {
         type: DataTypes.STRING,
+        allowNull: false
+    },
+    carrera_id: {
+        type: DataTypes.INTEGER,
         allowNull: false,
-    },
-    url_peticion: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    respuesta_peticion: {
-        type: DataTypes.JSON,
-        allowNull: false
-    },
-    duracion_peticion: {
-        type: DataTypes.DECIMAL,
-        allowNull: false
+        references: {
+            model: Carrera,
+            key: 'id'
+        }
     },
     createdAt: {
         allowNull: false,
@@ -35,8 +28,13 @@ const ActivityLogs = sequelize.sequelize.define('activity_logs', {
     updatedAt: {
         allowNull: false,
         type: DataTypes.DATE
+    },
+    deletedAt: {
+        allowNull: true,
+        type: DataTypes.DATE,
+        defaultValue: null
     }
 });
 
-module.exports = ActivityLogs;
+module.exports = Materia;
 
