@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../index.js");
 const requestApi = request(app);
 const { before } = require("mocha");
+const ksuid = require('ksuid');
 
 describe("- Tests Carrera endpoints -", () => {
   let authToken;
@@ -32,8 +33,22 @@ describe("- Tests Carrera endpoints -", () => {
   });
 
   it("GET /carreras/:id - response OK", async () => {
+
+    const ksuidValor = ksuid.randomSync().toString();
+    const ksuidConPrefijo = 'Carrera-' + ksuidValor;
+
+    const carreraData = {
+      name: ksuidConPrefijo
+    };
+    const response = await requestApi
+        .post("/carreras")
+        .send(carreraData)
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(200);
+
     await requestApi
-      .get("/carreras/1")
+      .get(`/carreras/${response.body.id}`)
       .set("Accept", "application/json")
       .expect(200);
   });
@@ -47,9 +62,13 @@ describe("- Tests Carrera endpoints -", () => {
 
 
   it("POST /carreras - crea una nueva carrera", async () => {
+    const ksuidValor = ksuid.randomSync().toString();
+    const ksuidConPrefijo = 'Carrera-' + ksuidValor;
+
     const carreraData = {
-      name: "Nueva Carrera Test"
+      name: ksuidConPrefijo
     };
+
     await requestApi
       .post("/carreras")
       .send(carreraData)
@@ -61,9 +80,13 @@ describe("- Tests Carrera endpoints -", () => {
 
   it("DELETE /carreras/:id - elimina una carrera existente", async () => {
 
+    const ksuidValor = ksuid.randomSync().toString();
+    const ksuidConPrefijo = 'Carrera-' + ksuidValor;
+
     const carreraData = {
-      name: "Nueva Carrera Test"
+      name: ksuidConPrefijo
     };
+
     const response = await requestApi
       .post("/carreras")
       .send(carreraData)
