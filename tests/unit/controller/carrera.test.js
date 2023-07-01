@@ -8,15 +8,17 @@ const tokenRolDecoderStub = sinon.stub();
 const getCarrerasStub = sinon.stub();
 const getCarrerasByIDStub = sinon.stub();
 const createCarreraStub = sinon.stub();
+const deleteCarreraStub = sinon.stub();
 const dummyToken = "Token";
 
 
-const { getCarreras, getCarrerasByID, createCarrera, jwt } =
+const { getCarreras, getCarrerasByID, createCarrera, deleteCarrera, jwt } =
     proxyquire("./../../../controller/carreraController", {
         './../services/carreraService': {
             getCarreras: getCarrerasStub,
             getCarrera : getCarrerasByIDStub,
             createCarrera: createCarreraStub,
+            deleteCarrera: deleteCarreraStub,
         },
         "../jwt": { getRolFromToken: tokenRolDecoderStub },
     });
@@ -25,7 +27,13 @@ describe("Test carreras controller", () => {
     beforeEach = () => {
         getCarrerasStub.resetHistory()
         getCarrerasStub.resetBehavior()
+        getCarrerasByIDStub.resetHistory()
+        getCarrerasByIDStub.resetBehavior()
         createCarreraStub.resetHistory()
+        createCarreraStub.resetBehavior()
+        deleteCarreraStub.resetHistory()
+        deleteCarreraStub.resetBehavior()
+        tokenRolDecoderStub.resetHistory()
         tokenRolDecoderStub.resetBehavior()
     };
 
@@ -245,6 +253,124 @@ describe("Test carreras controller", () => {
             await createCarrera(req, res);
         } catch (error) {
             chai.expect(res.status).to.be.eql(500);
+        }
+    });
+
+
+    it("carrerasController - should delete successfully for deleteCarrera", async () => {
+        const req = {
+            headers: {
+                authorization: dummyToken,
+            },
+            params: {
+                id: "1"
+            },
+            body: {
+                name: "Taller de Persistencia"
+            }
+        };
+        const carrera = { id: "1", name: "Taller de Persistencia",createAt: "30/06/2023", updatedAt: "30/06/2023", deletedAt: null}
+
+        getCarrerasByIDStub.resolves(carrera);
+        deleteCarreraStub.resolves(carrera)
+        tokenRolDecoderStub.resolves("ADMIN");
+
+        const jsonMock = sinon.stub();
+        jsonMock.returns(carrera);
+
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: jsonMock,
+        };
+
+        try {
+            await deleteCarrera(req, res);
+        } catch (error) {
+            chai.expect(res.status).to.be.eql(200);
+        }
+    });
+
+
+    it("carrerasController - should return unauthorized for deleteCarrera", async () => {
+
+        const req = {
+            headers: {
+                authorization: dummyToken,
+            },
+            params: {
+                id: "1"
+            },
+            body: {
+                name: "Taller de Persistencia"
+            }
+        };
+
+        tokenRolDecoderStub.resolves("USER_COMUN");
+
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub()
+        };
+
+        try {
+            await deleteCarrera(req, res);
+        } catch (error) {
+            chai.expect(res.status).to.be.eql(401);
+        }
+    });
+
+    it("carrerasController - should return error for deleteCarrera", async () => {
+        const req = {
+            headers: {
+                authorization: dummyToken,
+            },
+            body: {
+                name: "Taller de Persistencia"
+            },
+            params: {
+                id: "1"
+            }
+        };
+
+        const errorMock = new Error('Error');
+        deleteCarreraStub.rejects(errorMock);
+        tokenRolDecoderStub.resolves("ADMIN");
+
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub()
+        };
+
+        try {
+            await deleteCarrera(req, res);
+        } catch (error) {
+            chai.expect(res.status).to.be.eql(500);
+        }
+    });
+
+    it("carrerasController - should return not found for deleteCarrera", async () => {
+        const req = {
+            headers: {
+                authorization: dummyToken,
+            },
+            body: {
+                name: "Taller de Persistencia"
+            },
+            params: {
+                id: "1"
+            }
+        };
+
+        getCarrerasByIDStub.resolves(false);
+        tokenRolDecoderStub.resolves("ADMIN");
+        const res = {
+            status: sinon.stub().returnsThis(),
+            json: sinon.stub()
+        };
+        try {
+            await deleteCarrera(req, res);
+        } catch (error) {
+            chai.expect(res.status).to.be.eql(404);
         }
     });
 
