@@ -70,4 +70,23 @@ describe("Test carreras controller", () => {
 
     });
 
+    it("carrerasController - should return error for getCarreras", async () => {
+        const req = {
+            headers: {
+                authorization: dummyToken,
+            },
+        };
+
+        const errorMock = new Error('Error');
+        getCarrerasStub.rejects(errorMock);
+
+        const res = {
+            status: 500,
+        };
+        try {
+            await getCarreras(req, res);
+        } catch (error) {
+            chai.expect(res.status).to.be.eql(500);
+        }
+    });
 });
