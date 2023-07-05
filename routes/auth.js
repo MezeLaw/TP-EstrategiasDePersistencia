@@ -1,7 +1,7 @@
 const express = require('express');
 const userService = require('../services/userService');
 const {deleteUser} = require("../services/userService");
-const jwtMiddleware = require('../jwt');
+const jwtMiddleware = require('../utils/jwt');;
 const bcrypt = require('bcrypt');
 
 const router = express.Router();

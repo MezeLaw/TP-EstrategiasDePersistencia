@@ -1,6 +1,6 @@
 
 const carreraService = require('../services/carreraService');
-const jwtMiddleware = require("../jwt");
+const jwtMiddleware = require("../utils/jwt");
 const adminRol = "ADMIN"
 const permisosInsuficientes = "El usuario no tiene los permisos necesarios para realizar la operacion"
 

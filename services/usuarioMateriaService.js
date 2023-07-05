@@ -1,5 +1,5 @@
 const UsuarioMateria = require('../models/usuario_materia');
-const Materia = require('../models/carrera');
+const Materia = require('../models/materia');
 const { Op } = require('sequelize');
 
 

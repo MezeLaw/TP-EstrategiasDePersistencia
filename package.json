@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "SET EJECUCION_TEST=true && mocha tests --exit --silent",
-    "test-report": "SET EJECUCION_TEST=true && mocha tests --reporter mochawesome --reporter-options reportFilename=carreras-test-reports,reportDir=./tests-reports,json=false --exit --silent"
+    "test": "SET EJECUCION_TEST=true && mocha tests/integration --exit --silent",
+    "test-unit": "mocha tests/unit/controller --exit --silent",
+    "test-report": "SET EJECUCION_TEST=true && mocha tests/integration --reporter mochawesome --reporter-options reportFilename=carreras-test-reports,reportDir=./tests-reports,json=false --exit --silent"
   },
   "keywords": [],
   "author": "",
