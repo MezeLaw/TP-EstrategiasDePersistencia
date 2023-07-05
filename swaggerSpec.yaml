@@ -1,0 +1,595 @@
+components:
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      scheme: bearer
+      bearerFormat: JWT
+      in: header
+      name: Authorization
+
+tags:
+  - name: Autenticacion
+    description: Endpoints relacionados con las autenticaciones
+  - name: Carreras
+    description: Endpoints relacionados con carreras
+  - name: Usuarios
+    description: Endpoints relacionados con usuarios
+  - name: Materias
+    description: Endpoints relacionados con materias
+  - name: Inscripción
+    description: Endpoints relacionados con las inscripciones
+  - name: Logs
+    description: Endpoints relacionados con los logs de la aplicación
+
+paths:
+  /auth:
+    post:
+      summary: Autenticación de usuario
+      tags:
+        - Autenticacion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              example:
+                email: test@test.com
+                password: password
+      responses:
+        200:
+          description: Autenticación exitosa
+        400:
+          description: Credenciales incorrectas
+        404:
+          description: Usuario no encontrado
+        500:
+          description: Error al generar token
+
+  /carreras:
+    get:
+      summary: Obtiene todas las carreras
+      tags:
+        - Carreras
+      responses:
+        '200':
+          description: Lista de carreras obtenida exitosamente
+        '500':
+          description: Error al obtener las carreras
+
+    post:
+      summary: Crea una nueva carrera
+      tags:
+        - Carreras
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              example:
+                name: Nombre de la carrera
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Carrera creada exitosamente
+        '500':
+          description: Error al crear la carrera
+
+  /carreras/{id}:
+    get:
+      summary: Obtiene una carrera por ID
+      tags:
+        - Carreras
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la carrera a buscar
+      responses:
+        '200':
+          description: Carrera encontrada exitosamente
+        '404':
+          description: Carrera no encontrada
+        '500':
+          description: Error al buscar la carrera
+
+    delete:
+      summary: Elimina una carrera por ID
+      tags:
+        - Carreras
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la carrera a eliminar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Carrera eliminada exitosamente
+        '404':
+          description: Carrera no encontrada
+        '500':
+          description: Error al buscar o eliminar la carrera
+
+  /users:
+    get:
+      summary: Obtiene todos los usuarios
+      tags:
+        - Usuarios
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+        '500':
+          description: Error al obtener los usuarios
+
+    post:
+      summary: Crea un nuevo usuario
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                lastname:
+                  type: string
+                dni:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              example:
+                name: Nombre del usuario
+                lastname: Apellido del usuario
+                dni: DNI del usuario
+                email: Correo electrónico del usuario
+                password: Contraseña del usuario
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Usuario creado exitosamente
+        '500':
+          description: Error al crear el usuario
+
+  /users/{id}:
+    get:
+      summary: Obtiene un usuario por ID
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario a buscar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Usuario encontrado exitosamente
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al buscar el usuario
+
+    delete:
+      summary: Elimina un usuario por ID
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario a eliminar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Usuario eliminado exitosamente
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error al buscar o eliminar el usuario
+
+  /users/{pagina_actual}/{cantidad_a_ver}:
+    get:
+      summary: Obtiene la cantidad de usuarios que quiera en la pagina que quiera.
+      tags:
+        - Usuarios
+      parameters:
+        - in: path
+          name: pagina_actual
+          schema:
+            type: string
+          required: true
+          description: Pagina actual que desea ver
+        - in: path
+          name: cantidad_a_ver
+          schema:
+            type: string
+          required: true
+          description: Cantidad de usuarios por pagina que desea ver
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+        '500':
+          description: Error al obtener los usuarios
+
+  /materias:
+    get:
+      summary: Obtiene todas las materias
+      tags:
+        - Materias
+      responses:
+        '200':
+          description: Lista de materias obtenida exitosamente
+        '500':
+          description: Error al obtener las materias
+
+    post:
+      summary: Crea una nueva materia
+      tags:
+        - Materias
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                carrera_id:
+                  type: string
+              example:
+                name: Nombre de la materia
+                carrera_id: ID de la carrera
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Materia creada exitosamente
+        '500':
+          description: Error al crear la materia
+
+  /materias/{id}:
+    get:
+      summary: Obtiene una materia por ID
+      tags:
+        - Materias
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la materia a buscar
+      responses:
+        '200':
+          description: Materia encontrada exitosamente
+        '404':
+          description: Materia no encontrada
+        '500':
+          description: Error al buscar la materia
+
+    delete:
+      summary: Elimina una materia por ID
+      tags:
+        - Materias
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la materia a eliminar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Materia eliminada exitosamente
+        '404':
+          description: Materia no encontrada
+        '500':
+          description: Error al buscar o eliminar la materia
+
+  /inscripcion/carrera/{carrera_id}/usuario/{usuario_id}:
+    post:
+      summary: Realiza la inscripción de un usuario a una carrera
+      tags:
+        - Inscripción
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: carrera_id
+          schema:
+            type: string
+          required: true
+          description: ID de la carrera a la que se desea inscribir
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario que desea inscribirse
+      responses:
+        '200':
+          description: Inscripción exitosa
+        '404':
+          description: Usuario o carrera no encontrados
+        '500':
+          description: Error al intentar realizar la inscripción
+
+  /inscripcion/carrera/usuario/{usuario_id}:
+    get:
+      summary: Realiza la consulta de las carreras a las que esta inscripto un usuario
+      tags:
+        - Inscripción
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario al que desea buscar sus carreras inscriptas
+      responses:
+        '200':
+          description: Carreras encontradas exitosamente
+        '404':
+          description: Carreras no encontradas
+        '500':
+          description: Error al buscar las carreras
+
+  /inscripcion/materia/usuario/{usuario_id}:
+    get:
+      summary: Realiza la consulta de las materias a las que esta inscripto un usuario
+      tags:
+        - Inscripción
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario al que desea buscar sus materias inscriptas
+      responses:
+        '200':
+          description: Materias encontradas exitosamente
+        '404':
+          description: Materias no encontradas
+        '500':
+          description: Error al buscar las materias
+
+  /inscripcion/materia/{materia_id}/usuario/{usuario_id}:
+    post:
+      summary: Realiza la inscripción de un usuario a una materia
+      tags:
+        - Inscripción
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: materia_id
+          schema:
+            type: string
+          required: true
+          description: ID de la materia a la que se desea inscribir
+        - in: path
+          name: usuario_id
+          schema:
+            type: string
+          required: true
+          description: ID del usuario que desea inscribirse
+      responses:
+        '200':
+          description: Inscripción exitosa
+        '404':
+          description: Usuario o materia no encontrados
+        '500':
+          description: Error al intentar realizar la inscripción
+
+  /activity-logs:
+    get:
+      summary: Obtiene todos los logs
+      tags:
+        - Logs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Lista de logs obtenida exitosamente
+        '500':
+          description: Error al obtener los logs
+
+  /activity-logs/{id}:
+    get:
+      summary: Obtiene un log por ID
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del log a buscar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Log encontrado exitosamente
+        '404':
+          description: Log no encontrado
+        '500':
+          description: Error al buscar el log
+
+  /activity-logs/{id_usuario}:
+    get:
+      summary: Obtiene los logs por ID de usuario
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: id_usuario
+          schema:
+            type: string
+          required: true
+          description: ID del usuario para filtrar los logs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logs encontrados exitosamente
+        '500':
+          description: Error al obtener los logs por ID de usuario
+
+  /activity-logs/metodo/{metodo_http}:
+    get:
+      summary: Obtiene los logs por método HTTP
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: metodo_http
+          schema:
+            type: string
+          required: true
+          description: Método HTTP para filtrar los logs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logs encontrados exitosamente
+        '500':
+          description: Error al obtener los logs por método HTTP
+
+  /activity-logs/url/{url_peticion}:
+    get:
+      summary: Obtiene los logs por endpoint de URL
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: url_peticion
+          schema:
+            type: string
+          required: true
+          description: Endpoint de URL para filtrar los logs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logs encontrados exitosamente
+        '500':
+          description: Error al obtener los logs por endpoint de URL
+
+  /activity-logs/fecha/{fecha_exacta}:
+    get:
+      summary: Obtiene los logs por fecha exacta
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: fecha_exacta
+          schema:
+            type: string
+          required: true
+          description:
+            - Fecha exacta para filtrar los logs
+            - Formato: yyyy-mm-dd
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logs encontrados exitosamente
+        '500':
+          description: Error al obtener los logs por fecha exacta
+
+  /activity-logs/fecha/{fecha_inicio}/{fecha_fin}:
+    get:
+      summary: Obtiene los logs entre dos fechas
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: fecha_inicio
+          schema:
+            type: string
+          required: true
+          description:
+            - Fecha de inicio para filtrar los logs
+            - Formato: yyyy-mm-dd
+        - in: path
+          name: fecha_fin
+          schema:
+            type: string
+          required: true
+          description:
+            - Fecha de fin para filtrar los logs
+            - Formato: yyyy-mm-dd
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logs encontrados exitosamente
+        '500':
+          description: Error al obtener los logs entre dos fechas
+
+  /activity-logs/duracion/{duracion_min}/{duracion_max}:
+    get:
+      summary: Obtiene los logs por rango de duración
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: duracion_min
+          schema:
+            type: integer
+          required: true
+          description: Duración mínima para filtrar los logs
+        - in: path
+          name: duracion_max
+          schema:
+            type: integer
+          required: true
+          description: Duración máxima para filtrar los logs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Logs encontrados exitosamente
+        '500':
+          description: Error al obtener los logs por rango de duración
