@@ -116,7 +116,8 @@ router.get('/materia/usuario/:usuario_id', async (req, res) => {
     const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
     const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
     if(validationToken){
-        throw Error(validationToken);
+        res.status(401).json({error: validationToken})
+        return
     }
 
     try {
