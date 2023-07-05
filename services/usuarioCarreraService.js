@@ -15,18 +15,24 @@ async function inscribirUsuarioEnCarrera(usuarioId, carreraId) {
 
 async function getCarrerasUsuarioInscripto(usuarioId) {
     try {
-        const carrerasIdsByUserId = await UsuarioCarrera.findAll({
+        const carrerasIdsByUserId  = await UsuarioCarrera.findAll({
             attributes: ["id"],
             where: { usuario_id : usuarioId }
         });
-        
-        const carreras =
-        (carrerasIdsByUserId.length === 0)
-          ? []
-          : await Carrera.findAll({
-              where: { id: { [Op.in]: carrerasIdsByUserId } }
-            });                
-        return carreras;
+
+        console.log(carrerasIdsByUserId)
+
+        if (carrerasIdsByUserId.length<1){
+            return []
+        } else {
+
+            const idList = carrerasIdsByUserId.map(obj => obj.dataValues.id);
+
+            const carreras = await Carrera.findAll({
+                where: { id: { [Op.in]: idList } }
+            })
+            return carreras
+        }
     } catch (err) {
         console.error('Error al consultar las carreras inscriptas del usuario provisto:', err);
         throw new Error('Error al consultar las carreras inscriptas del usuario provisto');

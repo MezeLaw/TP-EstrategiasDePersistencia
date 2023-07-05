@@ -1,5 +1,5 @@
 const UsuarioMateria = require('../models/usuario_materia');
-const Materia = require('../models/carrera');
+const Materia = require('../models/materia');
 const { Op } = require('sequelize');
 
 
@@ -19,14 +19,19 @@ async function getMateriasUsuarioInscripto(usuarioId) {
             attributes: ["id"],
             where: { usuario_id : usuarioId }
         });
-        
-        const materias =
-        (materiasIdsByUserId.length === 0)
-          ? []
-          : await Materia.findAll({
-              where: { id: { [Op.in]: materiasIdsByUserId } }
-            });                
-        return materias;
+
+
+        const materias = (materiasIdsByUserId.length === 0)
+        if (materias){
+            return []
+        } else {
+            const idList = materiasIdsByUserId.map(obj => obj.dataValues.id);
+
+            const materias = await Materia.findAll({
+                where: { id: { [Op.in]: idList } }
+            })
+           return materias
+        }
     } catch (err) {
         console.error('Error al consultar las materias inscriptas del usuario provisto:', err);
         throw new Error('Error al consultar las materias inscriptas del usuario provisto');

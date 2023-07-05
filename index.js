@@ -10,6 +10,7 @@ const User = require('./models/user');
 const Carrera = require('./models/carrera');
 const UsuarioCarrera = require('./models/usuario_carrera');
 const ActivityLogs = require('./models/activity_logs');
+const materias = require('./models/materia')
 
 //Swagger
 const swaggerUi = require('swagger-ui-express');
@@ -35,6 +36,7 @@ const carrerasRouter = require('./routes/carreras');
 const inscripcionesRouter = require('./routes/inscripcion');
 const authRouter = require('./routes/auth');
 const activityLogsRouter = require('./routes/activityLogs');
+const materiaRouter = require('./routes/materias')
 
 //Routing sin agrupamiento
 app.get('/', (req, res) => {
@@ -50,6 +52,7 @@ app.use('/carreras', carrerasRouter);
 app.use('/inscripcion', inscripcionesRouter);
 app.use('/auth', authRouter);
 app.use('/activity-logs', activityLogsRouter);
+app.use('/materias', materiaRouter)
 
 // Iniciar el servidor post sync de la db
 syncDatabase()

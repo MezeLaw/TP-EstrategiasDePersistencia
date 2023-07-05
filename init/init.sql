@@ -93,13 +93,20 @@ INSERT INTO usuario_carreras
 (id, usuario_id, carrera_id, createdAt, updatedAt, deletedAt)
 VALUES(1, 1, 1, '2023-06-30 01:03:37.000', '2023-06-30 01:03:37.000', NULL);
 
+INSERT INTO materias
+(id, name, carrera_id ,createdAt, updatedAt, deletedAt)
+VALUES(1, 'Programacion 3', 1 , '2023-06-30 01:02:20.000', '2023-06-30 01:02:20.000', NULL);
+
+INSERT INTO usuario_materias
+(id, usuario_id, materia_id, createdAt, updatedAt, deletedAt)
+VALUES(1, 1, 1, '2023-06-30 01:03:37.000', '2023-06-30 01:03:37.000', NULL);
+
 INSERT INTO activity_logs
 (id, usuario_id, metodo_http, url_peticion, respuesta_peticion, duracion_peticion, createdAt, updatedAt)
 VALUES(1, '1', 'GET', '/users/1', '{"id":1,"name":"Meze","lastname":"Lawyer","dni":37869099,"email":"mezequielabogado@gmail.com","password":"$2b$10$gN5m/UPr.wplCgUybFOCNOY2b8pQYOxjVii9QEl0GF8lzkCbXTwRi","rol":"ADMIN","createdAt":"2023-06-30T00:58:29.000Z","updatedAt":"2023-06-30T00:58:29.000Z","deletedAt":null}', 5, '2023-06-30 01:10:25.000', '2023-06-30 01:10:25.000');
 
--- Materias
 
--- Usuario Materia
+
 
 CREATE DATABASE api_v2_test;
 

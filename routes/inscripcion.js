@@ -92,8 +92,10 @@ router.post('/materia/:materia_id/usuario/:usuario_id', async (req, res) => {
             res.status(404).json({ error: 'Usuario o materia no encontrados' });
         }
 
-        const idsCarrerasDeUsuario = usuarioCarreraService.getCarrerasUsuarioInscripto(userId).map(carrera => carrera.id);
-        if (!idsCarrerasDeUsuario.includes(materia.carrera_id)) {
+        const idsCarrerasDeUsuario = await usuarioCarreraService.getCarrerasUsuarioInscripto(userId);
+        const carrerasList = idsCarrerasDeUsuario.map(obj => obj.dataValues.id);
+
+        if (!carrerasList.includes(materia.carrera_id)) {
             res.status(404).json({ error: 'La materia no pertenece a una carrera que el usuario este inscripto' });
         }          
 

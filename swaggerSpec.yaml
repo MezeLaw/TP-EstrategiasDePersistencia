@@ -12,6 +12,8 @@ tags:
     description: Endpoints relacionados con carreras
   - name: Usuarios
     description: Endpoints relacionados con usuarios
+  - name: Materias
+    description: Endpoints relacionados con materias
   - name: Inscripción
     description: Endpoints relacionados con las inscripciones
   - name: Autenticacion
@@ -210,7 +212,85 @@ paths:
         '200':
           description: Lista de usuarios obtenida exitosamente
         '500':
-          description: Error al obtener los usuarios    
+          description: Error al obtener los usuarios
+
+  /materias:
+    get:
+      summary: Obtiene todas las materias
+      tags:
+        - Materias
+      responses:
+        '200':
+          description: Lista de materias obtenida exitosamente
+        '500':
+          description: Error al obtener las materias
+
+    post:
+      summary: Crea una nueva materia
+      tags:
+        - Materias
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                carrera_id:
+                  type: string
+              example:
+                name: Nombre de la materia
+                carrera_id: ID de la carrera
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Materia creada exitosamente
+        '500':
+          description: Error al crear la materia
+
+  /materias/{id}:
+    get:
+      summary: Obtiene una materia por ID
+      tags:
+        - Materias
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la materia a buscar
+      responses:
+        '200':
+          description: Materia encontrada exitosamente
+        '404':
+          description: Materia no encontrada
+        '500':
+          description: Error al buscar la materia
+
+    delete:
+      summary: Elimina una materia por ID
+      tags:
+        - Materias
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la materia a eliminar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Materia eliminada exitosamente
+        '404':
+          description: Materia no encontrada
+        '500':
+          description: Error al buscar o eliminar la materia
 
   /inscripcion/carrera/{carrera_id}/usuario/{usuario_id}:
     post:
@@ -329,8 +409,8 @@ paths:
                 password:
                   type: string
               example:
-                email: correo@example.com
-                password: password123
+                email: test@test.com
+                password: password
       responses:
         200:
           description: Autenticación exitosa
@@ -344,7 +424,7 @@ paths:
   /activity-logs:
     get:
       summary: Obtiene todos los logs
-      tags: 
+      tags:
         - Logs
       security:
         - BearerAuth: []
@@ -357,7 +437,7 @@ paths:
   /activity-logs/{id_usuario}:
     get:
       summary: Obtiene los logs por ID de usuario
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
@@ -377,7 +457,7 @@ paths:
   /activity-logs/{metodo_http}:
     get:
       summary: Obtiene los logs por método HTTP
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
@@ -397,7 +477,7 @@ paths:
   /activity-logs/ip/{direccion_ip}:
     get:
       summary: Obtiene los logs por dirección IP
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
@@ -417,7 +497,7 @@ paths:
   /activity-logs/url/{url_peticion}:
     get:
       summary: Obtiene los logs por endpoint de URL
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
@@ -437,7 +517,7 @@ paths:
   /activity-logs/fecha/{fecha_exacta}:
     get:
       summary: Obtiene los logs por fecha exacta
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
@@ -459,7 +539,7 @@ paths:
   /activity-logs/fecha/{fecha_inicio}/{fecha_fin}:
     get:
       summary: Obtiene los logs entre dos fechas
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
@@ -469,7 +549,7 @@ paths:
           required: true
           description:
             - Fecha de inicio para filtrar los logs
-            - Formato: yyyy-mm-dd          
+            - Formato: yyyy-mm-dd
         - in: path
           name: fecha_fin
           schema:
@@ -477,7 +557,7 @@ paths:
           required: true
           description:
             - Fecha de fin para filtrar los logs
-            - Formato: yyyy-mm-dd    
+            - Formato: yyyy-mm-dd
       security:
         - BearerAuth: []
       responses:
@@ -489,7 +569,7 @@ paths:
   /activity-logs/duracion/{duracion_min}/{duracion_max}:
     get:
       summary: Obtiene los logs por rango de duración
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
@@ -515,7 +595,7 @@ paths:
   /activity-logs/{id}:
     delete:
       summary: Elimina un log por ID
-      tags: 
+      tags:
         - Logs
       parameters:
         - in: path
