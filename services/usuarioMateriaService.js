@@ -16,7 +16,7 @@ async function inscribirUsuarioEnMateria(usuarioId, materiaId) {
 async function getMateriasUsuarioInscripto(usuarioId) {
     try {
         const materiasIdsByUserId = await UsuarioMateria.findAll({
-            attributes: ["id"],
+            attributes: ["materia_id"],
             where: { usuario_id : usuarioId }
         });
 
@@ -25,7 +25,7 @@ async function getMateriasUsuarioInscripto(usuarioId) {
         if (materias){
             return []
         } else {
-            const idList = materiasIdsByUserId.map(obj => obj.dataValues.id);
+            const idList = materiasIdsByUserId.map(obj => obj.dataValues.materia_id);
 
             const materias = await Materia.findAll({
                 where: { id: { [Op.in]: idList } }

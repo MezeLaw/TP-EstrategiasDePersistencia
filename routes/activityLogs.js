@@ -23,6 +23,25 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Obtener log por id
+router.get('/:id', async (req, res) => {
+    const idLog = req.params.id;
+    try {
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        const rolTokenValidation = await jwtMiddleware.getRolFromToken(tokenParsed);
+        if(rolTokenValidation!== adminRol){
+            console.log(permisosInsuficientes)
+            res.status(401).json({ error: permisosInsuficientes });
+            return
+        }
+        const activities = await activityService.getActivityById(idLog);
+        res.json(activities);
+    } catch (err) {
+        console.error('Error al obtener los logs:', err);
+        res.status(500).json({ error: 'Error al obtener los logs' });
+    }
+});
+
 // Obtener por ID de usuario
 router.get("/:id_usuario", async (req, res) => {
     const userId = req.params.id_usuario;
@@ -44,7 +63,7 @@ router.get("/:id_usuario", async (req, res) => {
     }
 });
 
-router.get("/http/method/:metodo_http", async (req, res) => {
+router.get("/metodo/:metodo_http", async (req, res) => {
     const metodoHttp = req.params.metodo_http;
     try {
         const tokenParsed = jwtMiddleware.verifyAndParseToken(req);

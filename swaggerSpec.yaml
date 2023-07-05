@@ -8,6 +8,8 @@ components:
       name: Authorization
 
 tags:
+  - name: Autenticacion
+    description: Endpoints relacionados con las autenticaciones
   - name: Carreras
     description: Endpoints relacionados con carreras
   - name: Usuarios
@@ -16,12 +18,39 @@ tags:
     description: Endpoints relacionados con materias
   - name: Inscripción
     description: Endpoints relacionados con las inscripciones
-  - name: Autenticacion
-    description: Endpoints relacionados con las autenticaciones
   - name: Logs
     description: Endpoints relacionados con los logs de la aplicación
 
 paths:
+  /auth:
+    post:
+      summary: Autenticación de usuario
+      tags:
+        - Autenticacion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              example:
+                email: test@test.com
+                password: password
+      responses:
+        200:
+          description: Autenticación exitosa
+        400:
+          description: Credenciales incorrectas
+        404:
+          description: Usuario no encontrado
+        500:
+          description: Error al generar token
+
   /carreras:
     get:
       summary: Obtiene todas las carreras
@@ -392,35 +421,6 @@ paths:
         '500':
           description: Error al intentar realizar la inscripción
 
-  /auth:
-    post:
-      summary: Autenticación de usuario
-      tags:
-        - Autenticacion
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                password:
-                  type: string
-              example:
-                email: test@test.com
-                password: password
-      responses:
-        200:
-          description: Autenticación exitosa
-        400:
-          description: Credenciales incorrectas
-        404:
-          description: Usuario no encontrado
-        500:
-          description: Error al generar token
-
   /activity-logs:
     get:
       summary: Obtiene todos los logs
@@ -433,6 +433,28 @@ paths:
           description: Lista de logs obtenida exitosamente
         '500':
           description: Error al obtener los logs
+
+  /activity-logs/{id}:
+    get:
+      summary: Obtiene un log por ID
+      tags:
+        - Logs
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID del log a buscar
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Log encontrado exitosamente
+        '404':
+          description: Log no encontrado
+        '500':
+          description: Error al buscar el log
 
   /activity-logs/{id_usuario}:
     get:
@@ -454,7 +476,7 @@ paths:
         '500':
           description: Error al obtener los logs por ID de usuario
 
-  /activity-logs/{metodo_http}:
+  /activity-logs/metodo/{metodo_http}:
     get:
       summary: Obtiene los logs por método HTTP
       tags:
@@ -473,26 +495,6 @@ paths:
           description: Logs encontrados exitosamente
         '500':
           description: Error al obtener los logs por método HTTP
-
-  /activity-logs/ip/{direccion_ip}:
-    get:
-      summary: Obtiene los logs por dirección IP
-      tags:
-        - Logs
-      parameters:
-        - in: path
-          name: direccion_ip
-          schema:
-            type: string
-          required: true
-          description: Dirección IP para filtrar los logs
-      security:
-        - BearerAuth: []
-      responses:
-        '200':
-          description: Logs encontrados exitosamente
-        '500':
-          description: Error al obtener los logs por dirección IP
 
   /activity-logs/url/{url_peticion}:
     get:
@@ -591,25 +593,3 @@ paths:
           description: Logs encontrados exitosamente
         '500':
           description: Error al obtener los logs por rango de duración
-
-  /activity-logs/{id}:
-    delete:
-      summary: Elimina un log por ID
-      tags:
-        - Logs
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID del log a eliminar
-      security:
-        - BearerAuth: []
-      responses:
-        '200':
-          description: Log eliminado exitosamente
-        '404':
-          description: Log no encontrado
-        '500':
-          description: Error al buscar o eliminar el log

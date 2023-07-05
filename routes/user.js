@@ -56,10 +56,8 @@ router.get("/:id", async (req, res) => {
         // Registro de actividad
         await activityService.createActivity({
             usuario_id: tokenParsed.id,
-            direccion_ip: req.ip,
             metodo_http: req.method,
             url_peticion: req.originalUrl,
-            datos_peticion: req.body,
             respuesta_peticion: response,
             duracion_peticion: performance.now() - start
         });

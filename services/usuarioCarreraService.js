@@ -16,7 +16,7 @@ async function inscribirUsuarioEnCarrera(usuarioId, carreraId) {
 async function getCarrerasUsuarioInscripto(usuarioId) {
     try {
         const carrerasIdsByUserId  = await UsuarioCarrera.findAll({
-            attributes: ["id"],
+            attributes: ["carrera_id"],
             where: { usuario_id : usuarioId }
         });
 
@@ -26,7 +26,7 @@ async function getCarrerasUsuarioInscripto(usuarioId) {
             return []
         } else {
 
-            const idList = carrerasIdsByUserId.map(obj => obj.dataValues.id);
+            const idList = carrerasIdsByUserId.map(obj => obj.dataValues.carrera_id);
 
             const carreras = await Carrera.findAll({
                 where: { id: { [Op.in]: idList } }
