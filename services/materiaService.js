@@ -1,8 +1,8 @@
 const Materia = require('../models/Materia');
 
-async function createMateria({ name }) {
+async function createMateria({ name, carrera_id }) {
     try {
-        const materia = await Materia.create({ name });
+        const materia = await Materia.create({ name, carrera_id });
         return materia;
     } catch (err) {
         console.error('Error al crear la materia:', err);

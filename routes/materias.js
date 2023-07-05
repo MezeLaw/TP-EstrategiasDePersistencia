@@ -1,6 +1,7 @@
 const express = require('express');
 const materiasService = require('../services/materiaService');
 const jwtMiddleware = require("../utils/jwt");
+const carrerasService = require('../services/carreraService');
 const adminRol = "ADMIN"
 const permisosInsuficientes = "El usuario no tiene los permisos necesarios para realizar la operacion"
 const router = express.Router();
@@ -34,7 +35,7 @@ router.get("/:id",async (req, res) => {
 
 //Create materia
 router.post('/', async (req, res) => {
-    const { name } = req.body;
+    const { name, carrera_id } = req.body;
     try {
         const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
         const rolTokenValidation = await jwtMiddleware.getRolFromToken(tokenParsed);
@@ -43,11 +44,17 @@ router.post('/', async (req, res) => {
             res.status(401).json({ error: permisosInsuficientes });
             return
         }
-        const materia = await materiasService.createMateria({ name });
+        if(!carrerasService.getCarrera(carrera_id)){
+            res.status(500).json({ error: 'Error al crear la materia. No existe la carrera' });
+            return
+        }
+        const materia = await materiasService.createMateria({ name, carrera_id});
         res.json(materia);
+        return
     } catch (err) {
         console.error('Error al crear la materia:', err);
         res.status(500).json({ error: 'Error al crear la materia' });
+        return
     }
 });
 

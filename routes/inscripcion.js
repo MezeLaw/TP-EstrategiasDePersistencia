@@ -45,13 +45,16 @@ router.post('/carrera/:carrera_id/usuario/:usuario_id', async (req, res) => {
 router.get('/carrera/usuario/:usuario_id', async (req, res) => {
     const userId = req.params.usuario_id;
 
-    const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
-    const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
-    if(validationToken){
-        throw Error(validationToken);
-    }
-
     try {
+
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
+
+        if(validationToken){
+            res.status(401).json({error: validationToken})
+            return
+        }
+
         const user = await userService.getUser(userId);
         if (!user ) {
             res.status(404).json({ error: 'Usuario no encontrados' });
@@ -89,8 +92,10 @@ router.post('/materia/:materia_id/usuario/:usuario_id', async (req, res) => {
             res.status(404).json({ error: 'Usuario o materia no encontrados' });
         }
 
-        const idsCarrerasDeUsuario = usuarioCarreraService.getCarrerasUsuarioInscripto(userId).map(carrera => carrera.id);
-        if (!idsCarrerasDeUsuario.includes(materia.carrera_id)) {
+        const idsCarrerasDeUsuario = await usuarioCarreraService.getCarrerasUsuarioInscripto(userId);
+        const carrerasList = idsCarrerasDeUsuario.map(obj => obj.dataValues.id);
+
+        if (!carrerasList.includes(materia.carrera_id)) {
             res.status(404).json({ error: 'La materia no pertenece a una carrera que el usuario este inscripto' });
         }          
 
@@ -113,7 +118,8 @@ router.get('/materia/usuario/:usuario_id', async (req, res) => {
     const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
     const validationToken = await jwtMiddleware.tokenValidationWithId(tokenParsed, userId);
     if(validationToken){
-        throw Error(validationToken);
+        res.status(401).json({error: validationToken})
+        return
     }
 
     try {
