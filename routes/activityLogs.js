@@ -1,6 +1,6 @@
 const express = require('express');
 const activityService = require('../services/activityLogsService');
-const jwtMiddleware = require('../jwt');
+const jwtMiddleware = require('../utils/jwt');
 const router = express.Router();
 const adminRol = "ADMIN"
 const permisosInsuficientes = "El usuario no tiene los permisos necesarios para realizar la operacion"
@@ -16,6 +16,25 @@ router.get('/', async (req, res) => {
             return
         }
         const activities = await activityService.getActivities()
+        res.json(activities);
+    } catch (err) {
+        console.error('Error al obtener los logs:', err);
+        res.status(500).json({ error: 'Error al obtener los logs' });
+    }
+});
+
+// Obtener log por id
+router.get('/:id', async (req, res) => {
+    const idLog = req.params.id;
+    try {
+        const tokenParsed = jwtMiddleware.verifyAndParseToken(req);
+        const rolTokenValidation = await jwtMiddleware.getRolFromToken(tokenParsed);
+        if(rolTokenValidation!== adminRol){
+            console.log(permisosInsuficientes)
+            res.status(401).json({ error: permisosInsuficientes });
+            return
+        }
+        const activities = await activityService.getActivityById(idLog);
         res.json(activities);
     } catch (err) {
         console.error('Error al obtener los logs:', err);
@@ -44,7 +63,7 @@ router.get("/:id_usuario", async (req, res) => {
     }
 });
 
-router.get("/http/method/:metodo_http", async (req, res) => {
+router.get("/metodo/:metodo_http", async (req, res) => {
     const metodoHttp = req.params.metodo_http;
     try {
         const tokenParsed = jwtMiddleware.verifyAndParseToken(req);

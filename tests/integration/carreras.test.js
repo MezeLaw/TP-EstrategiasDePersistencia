@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../index.js");
+const app = require("../../index.js");
 const requestApi = request(app);
 const { before } = require("mocha");
 const ksuid = require('ksuid');

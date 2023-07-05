@@ -20,7 +20,7 @@ const { getCarreras, getCarrerasByID, createCarrera, deleteCarrera, jwt } =
             createCarrera: createCarreraStub,
             deleteCarrera: deleteCarreraStub,
         },
-        "../jwt": { getRolFromToken: tokenRolDecoderStub },
+        "../utils/jwt": { getRolFromToken: tokenRolDecoderStub },
     });
 
 describe("Test carreras controller", () => {

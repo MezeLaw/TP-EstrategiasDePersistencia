@@ -20,7 +20,6 @@ function verifyAndParseToken(req) {
     }
   }
 
-  //TODO terminar la funcion
 async function tokenValidationWithId(token, id) {
   if (!token){
     console.error('Error al validar token. No existe token para validar', id);

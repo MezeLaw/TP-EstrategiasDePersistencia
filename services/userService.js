@@ -10,7 +10,7 @@ async function createUser({ name, lastname, dni, email, password, rol }) {
         //TODO mejorar el control al momento de crear usuario
         if (userByDni){
             if(userByDni.deletedAt && (!userByEmail || userByDni.email === (email))){
-                return await userUpdateV2(userByDni, { name, lastname, dni, email, password: hashedPassword, rol });
+                return await userUpdate(userByDni, { name, lastname, dni, email, password: hashedPassword, rol });
             } else {
                 throw new Error('Ya existe un usuario con el dni provisto');
             }
@@ -26,7 +26,7 @@ async function createUser({ name, lastname, dni, email, password, rol }) {
     }
 }
 
-async function userUpdateV2(user, updatedData) {
+async function userUpdate(user, updatedData) {
     try {
         updatedData.rol = user.rol //como en la creacion el usuario no puede enviar el rol, en caso de reactivacion copio lo que ya existia
         Object.assign(user, updatedData);

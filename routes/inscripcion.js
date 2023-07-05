@@ -6,7 +6,7 @@ const carreraService = require('../services/carreraService')
 const materiaService = require('../services/materiaService')
 const usuarioCarreraService = require('../services/usuarioCarreraService')
 const usuarioMateriaService = require('../services/usuarioMateriaService')
-const jwtMiddleware = require("../jwt");
+const jwtMiddleware = require("../utils/jwt");
 
 const router = express.Router();
 

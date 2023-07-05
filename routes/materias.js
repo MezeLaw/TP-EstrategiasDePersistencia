@@ -1,7 +1,7 @@
 const express = require('express');
 const materiasService = require('../services/materiaService');
+const jwtMiddleware = require("../utils/jwt");
 const carrerasService = require('../services/carreraService');
-const jwtMiddleware = require("../jwt");
 const adminRol = "ADMIN"
 const permisosInsuficientes = "El usuario no tiene los permisos necesarios para realizar la operacion"
 const router = express.Router();

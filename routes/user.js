@@ -2,7 +2,7 @@ const express = require('express');
 const { performance } = require('perf_hooks');
 const userService = require('../services/userService');
 const activityService = require('../services/activityLogsService');
-const jwtMiddleware = require('../jwt');
+const jwtMiddleware = require('../utils/jwt');;
 const router = express.Router();
 const adminRol = "ADMIN"
 const permisosInsuficientes = "El usuario no tiene los permisos necesarios para realizar la operacion"
@@ -56,10 +56,8 @@ router.get("/:id", async (req, res) => {
         // Registro de actividad
         await activityService.createActivity({
             usuario_id: tokenParsed.id,
-            direccion_ip: req.ip,
             metodo_http: req.method,
             url_peticion: req.originalUrl,
-            datos_peticion: req.body,
             respuesta_peticion: response,
             duracion_peticion: performance.now() - start
         });
